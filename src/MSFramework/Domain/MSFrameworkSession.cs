@@ -1,31 +1,15 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace MSFramework.Domain
 {
 	public interface IMSFrameworkSession
 	{
 		string UserId { get; }
+		
+		string UserName { get; }
 
 		Task CommitAsync();
-	}
 
-	public class MSFrameworkSession : IMSFrameworkSession
-	{
-		private readonly IHttpContextAccessor _accessor;
-		private readonly IUnitOfWork _unitOfWork;
-
-		public MSFrameworkSession(IHttpContextAccessor accessor, IUnitOfWork unitOfWork)
-		{
-			_accessor = accessor;
-			_unitOfWork = unitOfWork;
-		}
-
-		public string UserId => _accessor.HttpContext.User.FindFirst("sub")?.Value;
-
-		public async Task CommitAsync()
-		{
-			await _unitOfWork.CommitAsync();
-		}
+		void Commit();
 	}
 }

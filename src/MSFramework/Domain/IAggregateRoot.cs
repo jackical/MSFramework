@@ -1,19 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using MSFramework.Domain.Event;
+﻿using System.Collections.Generic;
+using MSFramework.EventBus;
 
 namespace MSFramework.Domain
 {
-	public interface IAggregateRoot : IEventSourcingAggregate
+	/// <summary>
+	/// Represents an aggregate root.
+	/// </summary>
+	public interface IAggregateRoot
 	{
-		Guid Id { get; }
+		/// <summary>
+		/// the id as string of the aggregate root.
+		/// </summary>
+		/// <returns></returns>
+		string GetId();
 
-		void RegisterDomainEvent(IDomainEvent @event);
+		int Version { get; }
 
-		IEnumerable<IDomainEvent> GetDomainEvents();
+		IEnumerable<IAggregateRootChangedEvent> GetChanges();
 
+		void ClearChanges();
+		
+		IReadOnlyCollection<IEvent> DomainEvents { get; }
+		
 		void ClearDomainEvents();
 
-		void LoadFromHistory(params IAggregateEvent[] histories);
+		void LoadFromHistory(params IAggregateRootChangedEvent[] histories);
 	}
 }

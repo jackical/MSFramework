@@ -4,10 +4,9 @@ using MSFramework.Domain;
 
 namespace Ordering.Domain.AggregateRoot
 {
-	public class Order : AggregateRootBase
+	public class Order : AggregateRootBase<Order, Guid>
 	{
 		private string _description;
-		private bool _isDeleted;
 		private string _userId;
 
 		// DDD Patterns comment
@@ -20,8 +19,6 @@ namespace Ordering.Domain.AggregateRoot
 		// Using private fields, allowed since EF Core 1.1, is a much better encapsulation
 		// aligned with DDD Aggregates and Domain Entities (Instead of properties and property collections)
 		private DateTime _creationTime;
-
-		public int OrderStatus { get; private set; }
 
 		// Address is a Value Object pattern example persisted as EF Core 2.0 owned entity
 		public Address Address { get; private set; }
@@ -40,35 +37,28 @@ namespace Ordering.Domain.AggregateRoot
 			List<OrderItem> orderItems
 		)
 		{
-			ApplyAggregateEvent(new OrderCreatedEvent(userId,
+			ApplyChangedEvent(new OrderCreatedEvent(userId,
 				address,
 				description,
 				orderItems));
 		}
 
-		private void Apply(OrderCreatedEvent e)
+		private void Apply(OrderCreatedEvent @event)
 		{
-			Version = e.Version;
-
-			Id = e.AggregateId;
-			Address = e.Address;
-			_userId = e.UserId;
-			_description = e.Description;
-			_orderItems = e.OrderItems;
-			_creationTime = e.CreationTime;
-			OrderStatus = 0;
+			Address = @event.Address;
+			_userId = @event.UserId;
+			_description = @event.Description;
+			_orderItems = @event.OrderItems;
+			_creationTime = @event.Timestamp;
 		}
 
-		private void Apply(OrderAddressChangedEvent e)
+		private void Apply(OrderAddressChangedEvent @event)
 		{
-			Version = e.Version;
-			Address = e.NewOrderAddress;
+			Address = @event.NewOrderAddress;
 		}
 
-		private void Apply(OrderDeletedEvent e)
+		private void Apply(OrderDeletedEvent @event)
 		{
-			Version = e.Version;
-			_isDeleted = true;
 		}
 
 		public void ChangeAddress(Address newAddress)
@@ -78,12 +68,12 @@ namespace Ordering.Domain.AggregateRoot
 				throw new ArgumentException(nameof(newAddress));
 			}
 
-			ApplyAggregateEvent(new OrderAddressChangedEvent(newAddress));
+			ApplyChangedEvent(new OrderAddressChangedEvent(newAddress));
 		}
 
 		public void Delete()
 		{
-			ApplyAggregateEvent(new OrderDeletedEvent());
+			ApplyChangedEvent(new OrderDeletedEvent());
 		}
 	}
 }

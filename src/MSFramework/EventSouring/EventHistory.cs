@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using MSFramework.Common;
 using MSFramework.Domain;
-using MSFramework.Domain.Event;
 using MSFramework.Serialization;
 
 namespace MSFramework.EventSouring
@@ -10,52 +9,64 @@ namespace MSFramework.EventSouring
 	public class EventHistory : EntityBase<long>
 	{
 		/// <summary>
-		/// 
+		/// 领域事件类型
 		/// </summary>
 		[Required]
 		[StringLength(255)]
 		public string EventType { get; set; }
 
 		/// <summary>
-		/// 
+		/// 序列化的领域事件
 		/// </summary>
 		[Required]
 		public string Event { get; set; }
 
 		/// <summary>
-		/// 
+		/// 聚合根标识
 		/// </summary>
 		[Required]
-		public Guid AggregateId { get; set; }
+		[StringLength(255)]
+		public string AggregateRootId { get; set; }
+
+		/// <summary>
+		/// 版本号
+		/// </summary>
+		[Required]
+		public int Version { get; set; }
+
+		/// <summary>
+		/// 创建者
+		/// </summary>
+		[StringLength(255)]
+		public string Creator { get; set; }
+		
+		[StringLength(255)]
+		public string CreatorId { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
 		[Required]
-		public long Version { get; set; }
-
-		/// <summary>
-		/// 
-		/// </summary>
-		[Required]
-		public DateTime CreationTime { get; set; }
+		public DateTime Timestamp { get; set; }
 
 		public EventHistory()
 		{
+			Timestamp = DateTime.UtcNow;
 		}
 
-		public EventHistory(IAggregateEvent @event)
+		public EventHistory(IAggregateRootChangedEvent @event) : this()
 		{
-			EventType = @event.GetType().Name;
+			EventType = @event.GetType().AssemblyQualifiedName;
 			Version = @event.Version;
 			Event = Singleton<IJsonConvert>.Instance.SerializeObject(@event);
-			AggregateId = @event.AggregateId;
-			CreationTime = DateTime.UtcNow;
+			AggregateRootId = @event.GetAggregateRootId();
+			Creator = @event.Creator;
 		}
 
-		public IAggregateEvent ToAggregateEvent()
+		public IAggregateRootChangedEvent ToDomainEvent()
 		{
-			return (IAggregateEvent) Singleton<IJsonConvert>.Instance.DeserializeObject(Event, Type.GetType(EventType));
+			return (IAggregateRootChangedEvent) Singleton<IJsonConvert>.Instance.DeserializeObject(Event,
+				Type.GetType(EventType));
 		}
 	}
 }

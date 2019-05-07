@@ -5,7 +5,7 @@ namespace MSFramework.EventBus
 {
 	public static class ServiceCollectionExtensions
 	{
-		public static MSFrameworkBuilder AddLocalEventBus(this MSFrameworkBuilder builder,
+		public static MSFrameworkBuilder UseLocalEventBus(this MSFrameworkBuilder builder,
 			Action<EventBusBuilder> configure = null)
 		{
 			EventBusBuilder eBuilder = new EventBusBuilder(builder.Services);
@@ -17,10 +17,8 @@ namespace MSFramework.EventBus
 		}
 
 		public static IServiceCollection AddLocalEventBus(this IServiceCollection services)
-		{
-			services.AddSingleton<IEventBusSubscriptionStore, InMemoryEventBusSubscriptionStore>();
+		{			
 			services.AddSingleton<IEventBus, PassThroughEventBus>();
-
 			return services;
 		}
 	}

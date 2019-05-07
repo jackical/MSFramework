@@ -6,20 +6,22 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MSFramework.Common;
 using MSFramework.Domain;
+using MSFramework.Domain.Repository;
+using MSFramework.EntityFrameworkCore.Repository;
 
 namespace MSFramework.EntityFrameworkCore
 {
 	public static class ServiceCollectionExtensions
 	{
 		public static MSFrameworkBuilder UseEntityFramework(this MSFrameworkBuilder builder,
-			Action<EntityFrameworkBuilder> configure = null)
+			Action<EntityFrameworkBuilder> configure, IConfiguration configuration)
 		{
-			builder.Configuration.NotNull(nameof(builder.Configuration));
+			configuration.NotNull(nameof(configuration));
 
 			EntityFrameworkBuilder eBuilder = new EntityFrameworkBuilder(builder.Services);
 			configure?.Invoke(eBuilder);
 
-			var section = builder.Configuration.GetSection("DbContexts");
+			var section = configuration.GetSection("DbContexts");
 			EntityFrameworkOptions.EntityFrameworkOptionDict =
 				section.Get<Dictionary<string, EntityFrameworkOptions>>();
 			if (EntityFrameworkOptions.EntityFrameworkOptionDict == null ||
@@ -46,6 +48,8 @@ namespace MSFramework.EntityFrameworkCore
 
 			builder.Services.AddSingleton<IInitializer, EntityFrameworkInitializer>();
 			builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+			builder.Services.AddScoped(typeof(IRepository<,>), typeof(EfRepository<,>));
+			builder.Services.AddScoped(typeof(EfRepository<,>), typeof(EfRepository<,>));
 			return builder;
 		}
 	}

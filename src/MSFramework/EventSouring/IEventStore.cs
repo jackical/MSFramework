@@ -1,18 +1,19 @@
-using System;
 using System.Threading.Tasks;
 
 namespace MSFramework.EventSouring
 {
 	public interface IEventStore
 	{
-		Task<EventHistory[]> GetEventsAsync(Guid aggregateId, long from);
+		Task<EventHistory[]> GetEventsAsync(string aggregateId, long from);
 
-		EventHistory[] GetEvents(Guid aggregateId, long from);
+		EventHistory[] GetEvents(string aggregateId, long from);
 
-		Task AddEventAsync(params EventHistory[] events);
-
-		Task<EventHistory> GetLastEventAsync(Guid aggregateId);
+		Task AddEventsAsync(params EventHistory[] events);
 		
-		EventHistory GetLastEvent(Guid aggregateId);
+		void AddEvents(params EventHistory[] events);
+
+		Task<EventHistory> GetLastEventAsync(string aggregateId);
+		
+		EventHistory GetLastEvent(string aggregateId);
 	}
 }
