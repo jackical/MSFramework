@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using MSFramework.Domain;
-using MSFramework.Domain.Event;
 
 namespace ServicePlan.Domain.AggregateRoot
 {
 	/// <summary>
 	/// 创建服务计划事件
 	/// </summary>
-	public class CreateServicePlanEvent : AggregateEventBase
+	public class CreateServicePlanEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public Product Product { get; }
 
@@ -33,11 +32,9 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// <summary>
 	/// 创建路演计划事件
 	/// </summary>
-	public class CreateRoadShowPlanEvent : AggregateEventBase
+	public class CreateRoadShowPlanEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public Guid OwnerId { get; }
-         
-		public Client Client { get; }
          
 		public List<ClientUser> ClientUsers { get; }
          
@@ -51,15 +48,15 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public User User { get; }
 
-		public User Creator { get; }
+		public User CreatorUser { get; }
 
-		public CreateRoadShowPlanEvent(Client client, List<ClientUser> clientUsers, User user, User creator, string name, string address,
+		public CreateRoadShowPlanEvent(List<ClientUser> clientUsers, User user, User creator,
+			string name, string address,
 			DateTime beginTime, DateTime endTime, Guid ownerId)
 		{
-			Client = client;
 			ClientUsers = clientUsers;
 			User = user;
-			Creator = creator;
+			CreatorUser = creator;
 			Name = name;
 			Address = address;
 			BeginTime = beginTime;
@@ -71,14 +68,14 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// <summary>
 	/// 提交服务计划事件
 	/// </summary>
-	public class SubmitPlanEvent : AggregateEventBase
+	public class SubmitPlanEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 	}
 
 	/// <summary>
 	/// 完成服务计划事件
 	/// </summary>
-	public class CompletePlanEvent : AggregateEventBase
+	public class CompletePlanEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public string Subject { get; }
 
@@ -94,7 +91,7 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// <summary>
 	/// 上传附件事件
 	/// </summary>
-	public class UploadAttachmentsEvent : AggregateEventBase
+	public class UploadAttachmentsEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public List<Attachment> Attachments { get; }
 
@@ -104,7 +101,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 	}
 
-	public class QcVerifySuccessEvent : AggregateEventBase
+	public class QcVerifySuccessEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public User User { get; }
 
@@ -114,7 +111,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 	}
 
-	public class QcVerifyFailedEvent : AggregateEventBase
+	public class QcVerifyFailedEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public User User { get; }
 
@@ -124,7 +121,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 	}
 	
-	public class AuditSuccessEvent : AggregateEventBase
+	public class AuditSuccessEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public User User { get; }
 
@@ -134,7 +131,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 	}
 
-	public class AuditFailedEvent : AggregateEventBase
+	public class AuditFailedEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public User User { get; }
 
@@ -144,7 +141,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 	}
 
-	public class SetTitleAndAbstractEvent : AggregateEventBase
+	public class SetTitleAndAbstractEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public string Title { get; }
 
@@ -157,7 +154,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 	}
 
-	public class SubmitAuditEvent : AggregateEventBase
+	public class SubmitAuditEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public User User { get; }
 
@@ -167,9 +164,11 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 	}
 
-	public class SendEmailEvent : AggregateEventBase
+	public class SendEmailEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public List<Guid> ClientUsers { get; }
+
+		public DateTime CreationTime { get; }
 
 		public SendEmailEvent(List<Guid> clientUsers, DateTime creationTime)
 		{
@@ -178,7 +177,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 	}
 
-	public class SetEmailSentSuccessEvent : AggregateEventBase
+	public class SetEmailSentSuccessEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public Guid Identity { get; }
 
@@ -191,7 +190,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 	}
 	
-	public class SetEmailSentFailedEvent : AggregateEventBase
+	public class SetEmailSentFailedEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public Guid Identity { get; }
 
@@ -201,6 +200,52 @@ namespace ServicePlan.Domain.AggregateRoot
 		{
 			Identity = identity;
 			ResponseTime = responseTime;
+		}
+	}
+
+	public class DeleteServicePlanEvent : DeletedEvent<ServicePlan, Guid>
+	{
+	}
+
+	public class SetClientUsersEvent : AggregateRootChangedEvent<ServicePlan, Guid>
+	{
+		public Guid ServiceRecordId { get; }
+
+		public List<ClientUser> ClientUsers { get; }
+
+		public SetClientUsersEvent(Guid serviceRecordId, List<ClientUser> clientUsers)
+		{
+			ServiceRecordId = serviceRecordId;
+			ClientUsers = clientUsers;
+		}
+	}
+	
+	public class SetScoreEvent: AggregateRootChangedEvent<ServicePlan, Guid>
+	{
+		public Guid ServiceRecordId { get; }
+
+		public string ClientFocusKeyPoint { get; }
+
+		public bool Continue { get; }
+
+		public string ModificationRequirement { get; }
+
+		public string NewRequest { get; }
+
+		public int Score { get; }
+
+		public string Feedback { get; }
+
+		public SetScoreEvent(Guid serviceRecordId, string clientFocusKeyPoint, bool @continue,
+			string modificationRequirement, string newRequirement, int score, string feedback)
+		{
+			ServiceRecordId = serviceRecordId;
+			ClientFocusKeyPoint = clientFocusKeyPoint;
+			Continue = @continue;
+			ModificationRequirement = modificationRequirement;
+			NewRequest = newRequirement;
+			Score = score;
+			Feedback = feedback;
 		}
 	}
 }

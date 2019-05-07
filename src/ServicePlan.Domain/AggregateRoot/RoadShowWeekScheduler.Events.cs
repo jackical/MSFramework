@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using MSFramework.Domain.Event;
+using MSFramework.Domain;
 
 namespace ServicePlan.Domain.AggregateRoot
 {
 	/// <summary>
 	/// 创建周度计划
 	/// </summary>
-	public class CreateWeekSchedulerEvent : AggregateEventBase
+	public class CreateWeekSchedulerEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
 	{
 		public User User { get; }
 
@@ -27,7 +26,7 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// <summary>
 	/// 添加可路演时间
 	/// </summary>
-	public class AddIdleDateTimeEvent : AggregateEventBase
+	public class AddIdleDateTimeEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
 	{
 		public Appointment NewDateTime { get; }
 
@@ -40,7 +39,7 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// <summary>
 	/// 预约路演事件
 	/// </summary>
-	public class MakeAppointWithClientEvent : AggregateEventBase
+	public class MakeAppointWithClientEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
 	{
 		/// <summary>
 		/// 预约项
@@ -62,7 +61,8 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public string Description { get; }
 
-		public MakeAppointWithClientEvent(Guid appointmentId, string address, Client client, List<ClientUser> clientUsers, User sale, string description, DateTime bookTime)
+		public MakeAppointWithClientEvent(Guid appointmentId, string address, Client client,
+			List<ClientUser> clientUsers, User sale, string description, DateTime bookTime)
 		{
 			Address = address;
 			Client = client;
@@ -77,7 +77,7 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// <summary>
 	/// 删除预约事件
 	/// </summary>
-	public class CancelAppointEvent : AggregateEventBase
+	public class CancelAppointEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
 	{
 		public Guid AppointmentId { get; }
 
@@ -90,7 +90,7 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// <summary>
 	/// 移除可路演时间
 	/// </summary>
-	public class RemoveIdleDateTimeEvent : AggregateEventBase
+	public class RemoveIdleDateTimeEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
 	{
 		public Guid AppointmentId { get; }
 		
@@ -103,13 +103,13 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// <summary>
 	/// 关联核心观点和主题
 	/// </summary>
-	public class BindKeyIdeaAndTopicEvent : AggregateEventBase
+	public class BindKeyIdeaAndTopicEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
 	{
-		public Product Product { get; }
+		public string KeyIdeaAndTopic { get; }
 
-		public BindKeyIdeaAndTopicEvent(Product product)
+		public BindKeyIdeaAndTopicEvent(string keyIdeaAndTopic)
 		{
-			Product = product;
+			KeyIdeaAndTopic = keyIdeaAndTopic;
 		}
 	}
 }

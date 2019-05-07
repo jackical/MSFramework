@@ -51,18 +51,19 @@ namespace ServicePlan.Domain.AggregateRoot
 		public Appointment(string location, DateTime beginTime, DateTime endTime)
 		{
 			_location = location;
-			_bookTime = beginTime;
+			_beginTime = beginTime;
 			_endTime = endTime;
 			_booked = false;
 		}
 
-		public void MakeAppointWithClient(string address, List<ClientUser> clientUsers, User sale, string description, DateTime bookTime)
+		public void MakeAppointWithClient(string address, List<ClientUser> clientUsers, User sale, string description,
+			DateTime bookTime)
 		{
 			if (_booked)
 			{
 				throw new ServicePlanException("该时间段已被预约");
 			}
-			
+
 			_address = address;
 			_clientUsers = clientUsers;
 			_sale = sale;

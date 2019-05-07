@@ -6,17 +6,23 @@ namespace ServicePlan.Domain.AggregateRoot
 {
 	public class RoadShow : ValueObject
 	{
-		public Client Client { get; }
-
+		/// <summary>
+		/// 客户联系人
+		/// </summary>
 		public List<ClientUser> ClientUsers { get; }
 
+		/// <summary>
+		/// 所属预约路演信息
+		/// </summary>
 		public Guid Owner { get; }
 
+		/// <summary>
+		/// 预约地址
+		/// </summary>
 		public string Address { get; }
 
-		public RoadShow(Client client, List<ClientUser> clientUsers, string address, Guid owner)
+		public RoadShow(List<ClientUser> clientUsers, string address, Guid owner)
 		{
-			Client = client;
 			ClientUsers = clientUsers;
 			Owner = owner;
 			Address = address;
@@ -24,7 +30,6 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		protected override IEnumerable<object> GetAtomicValues()
 		{
-			yield return Client;
 			yield return ClientUsers;
 			yield return Owner;
 			yield return Address;

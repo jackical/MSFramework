@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using MSFramework.Domain.Event;
+using MSFramework.Domain;
 
 namespace ServicePlan.Domain.AggregateRoot
 {
 	/// <summary>
 	/// 创建路演服务计划领域事件
 	/// </summary>
-	public class CreateRoadShowServicePlanEvent : DomainEventBase<Guid>
+	public class CreateRoadShowServicePlanEvent : LocalDomainEvent
 	{
 		public Guid OwnerId { get; }
 
@@ -23,7 +23,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public User User { get; }
 
-		public User Creator { get; }
+		public User CreatorUser { get; }
 
 		public CreateRoadShowServicePlanEvent(Client client, List<ClientUser> clientUsers, string address, User user,
 			User creator, DateTime beginTime, DateTime endTime, Guid ownerId)
@@ -31,7 +31,7 @@ namespace ServicePlan.Domain.AggregateRoot
 			Client = client;
 			ClientUsers = clientUsers;
 			User = user;
-			Creator = creator;
+			CreatorUser = creator;
 			Address = address;
 			BeginTime = beginTime;
 			EndTime = endTime;

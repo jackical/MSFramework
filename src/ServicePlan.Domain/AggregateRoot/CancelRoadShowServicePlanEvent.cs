@@ -1,9 +1,9 @@
 using System;
-using MSFramework.Domain.Event;
+using MSFramework.Domain;
 
 namespace ServicePlan.Domain.AggregateRoot
 {
-	public class CancelRoadShowServicePlanEvent : DomainEventBase<Guid>
+	public class CancelRoadShowServicePlanEvent : LocalDomainEvent
 	{
 		public Guid AppointmentId { get; }
 

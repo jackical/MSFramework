@@ -29,7 +29,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 客户联系人
 		/// </summary>
-		private readonly ClientUser _clientUser;
+		private List<ClientUser> _clientUsers;
 
 		/// <summary>
 		/// 客户关注点及原因
@@ -54,20 +54,36 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 销售打分
 		/// </summary>
-		private string _scoring;
+		private int _score;
 
 		/// <summary>
 		/// 销售反馈
 		/// </summary>
 		private string _feedback;
 		
-		public ServiceRecord(DateTime serviceTime, ServicePlanType planType, string subject, string industryId, ClientUser clientUser)
+		public ServiceRecord(DateTime serviceTime, ServicePlanType planType, string subject, string industryId, List<ClientUser> clientUsers)
 		{
 			_serviceTime = serviceTime;
 			_servicePlanType = planType;
 			_subject = subject;
 			_industryId = industryId;
-			_clientUser = clientUser;
+			_clientUsers = clientUsers;
+		}
+
+		public void SetScoreAndFeedback(string clientFocusKeyPoint, bool @continue, string modificationRequirement,
+			string newRequirement, int score, string feedback)
+		{
+			_clientFocusKeyPoint = clientFocusKeyPoint;
+			_continue = @continue;
+			_modificationRequirement = modificationRequirement;
+			_newRequirement = newRequirement;
+			_score = score;
+			_feedback = feedback;
+		}
+
+		public void SetClientUsers(List<ClientUser> clientUsers)
+		{
+			_clientUsers = clientUsers;
 		}
 	}
 }
