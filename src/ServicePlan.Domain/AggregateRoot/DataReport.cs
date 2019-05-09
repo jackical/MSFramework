@@ -9,9 +9,9 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// </summary>
 	public class DataReport : ValueObject
 	{
-		public string ReportTitle { get; }
+		public string ReportTitle { get; private set; }
 
-		public string Abstract { get; }
+		public string Abstract { get; private set; }
 
 		private DataReport()
 		{

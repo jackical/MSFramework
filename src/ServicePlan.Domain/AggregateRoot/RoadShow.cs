@@ -9,12 +9,14 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 客户联系人
 		/// </summary>
-		public List<ClientUser> ClientUsers { get; }
+		private List<ClientUser> _clientUsers;
 
 		/// <summary>
 		/// 预约地址
 		/// </summary>
-		public string Address { get; }
+		public string Address { get; private set; }
+
+		public IReadOnlyCollection<ClientUser> ClientUsers => _clientUsers;
 
 		private RoadShow()
 		{
@@ -22,13 +24,13 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public RoadShow(List<ClientUser> clientUsers, string address)
 		{
-			ClientUsers = clientUsers;
+			_clientUsers = clientUsers;
 			Address = address;
 		}
 
 		protected override IEnumerable<object> GetAtomicValues()
 		{
-			yield return ClientUsers;
+			yield return _clientUsers;
 			yield return Address;
 		}
 	}

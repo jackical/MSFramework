@@ -26,7 +26,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 客户联系人
 		/// </summary>
-		public ClientUser ClientUser { get; }
+		public ClientUser ClientUser { get; private set; }
 
 		private EmailRecord()
 		{

@@ -6,24 +6,27 @@ namespace ServicePlan.Domain.AggregateRoot
 {
 	public class ClientUser : ValueObject
 	{
-		public Guid ClientId { get; }
+		private Guid _id;
+		
+		public Guid ClientId { get; private set; }
 
-		public string ClientName { get; }
+		public string ClientName { get; private set; }
 
-		public string ClientShortName { get; }
+		public string ClientShortName { get; private set; }
 
-		public Guid ClientUserId { get; }
+		public Guid ClientUserId { get; private set; }
 
-		public string FirstName { get; }
+		public string FirstName { get; private set; }
 
-		public string LastName { get; }
+		public string LastName { get; private set; }
 
 		private ClientUser()
 		{
+			_id = Guid.NewGuid();
 		}
 
 		public ClientUser(Guid clientUserId, string firstName, string lastName, Guid clientId, string clientName,
-			string clientShortName)
+			string clientShortName) : this()
 		{
 			ClientUserId = clientUserId;
 			FirstName = firstName;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using MSFramework.Domain;
 
 namespace ServicePlan.Domain.AggregateRoot
@@ -68,13 +69,14 @@ namespace ServicePlan.Domain.AggregateRoot
 		{
 		}
 
-		public ServiceRecord(DateTime serviceTime, ServicePlanType planType, string subject, string industryId, List<ClientUser> clientUsers)
+		public ServiceRecord(DateTime serviceTime, ServicePlanType planType, string subject, string industryId,
+			IEnumerable<ClientUser> clientUsers)
 		{
 			_serviceTime = serviceTime;
 			_servicePlanType = planType;
 			_subject = subject;
 			_industryId = industryId;
-			_clientUsers = clientUsers;
+			_clientUsers = clientUsers.ToList();
 		}
 
 		public void SetScore(int score, string feedback)

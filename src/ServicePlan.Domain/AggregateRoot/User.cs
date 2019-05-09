@@ -7,26 +7,26 @@ namespace ServicePlan.Domain.AggregateRoot
 {
 	public class User : ValueObject
 	{
-		public Guid UserId { get; }
+		public Guid UserId { get; private set; }
 
-		public string FirstName { get; }
+		public string FirstName { get; private set; }
 
-		public string LastName { get; }
+		public string LastName { get; private set; }
 
 		/// <summary>
 		/// 所在组
 		/// </summary>
-		public string GroupName { get; }
+		public string GroupName { get; private set; }
 
 		/// <summary>
 		/// 所在团队
 		/// </summary>
-		public string TeamName { get; }
+		public string TeamName { get; private set; }
 
 		/// <summary>
 		/// 邮箱地址
 		/// </summary>
-		public string Email { get; }
+		public string Email { get; private set; }
 		
 		private User()
 		{

@@ -1,21 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using MSFramework.Domain;
 
 namespace ServicePlan.Domain.AggregateRoot
 {
 	public class Product : ValueObject
 	{
-		public Guid ProductId { get; }
+		public Guid ProductId { get; private set; }
 
-		public string Name { get;}
+		public string Name { get; private set; }
 
-		public ProductType Type { get; }
+		public ProductType Type { get; private set; }
+
+		private readonly List<ClientUser> _subscriber;
 
 		/// <summary>
 		/// 订阅者
 		/// </summary>
-		public List<ClientUser> Subscriber { get; }
+		public IReadOnlyCollection<ClientUser> Subscriber => _subscriber;
 
 		private Product()
 		{
@@ -26,7 +29,7 @@ namespace ServicePlan.Domain.AggregateRoot
 			ProductId = id;
 			Name = name;
 			Type = productType;
-			Subscriber = subscriber;
+			_subscriber = subscriber;
 		}
 
 		protected override IEnumerable<object> GetAtomicValues()
@@ -34,7 +37,7 @@ namespace ServicePlan.Domain.AggregateRoot
 			yield return ProductId;
 			yield return Name;
 			yield return Type;
-			yield return Subscriber;
+			yield return _subscriber;
 		}
 	}
 }

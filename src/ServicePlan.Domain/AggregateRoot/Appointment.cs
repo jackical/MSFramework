@@ -54,7 +54,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 客户联系人
 		/// </summary>
-		//public IReadOnlyCollection<ClientUser> ClientUsers => _clientUsers;
+		public IReadOnlyCollection<ClientUser> ClientUsers => _clientUsers;
 
 		public bool Booked => _booked;
 

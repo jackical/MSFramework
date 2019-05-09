@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MSFramework.Domain;
 
@@ -5,17 +6,20 @@ namespace ServicePlan.Domain.AggregateRoot
 {
 	public class AuditHistory : ValueObject
 	{
-		public User User { get; }
+		private Guid _id;
 
-		public string Operation { get; }
+		public User User { get; private set; }
 
-		public string Result { get; }
+		public string Operation { get; private set; }
+
+		public string Result { get; private set; }
 
 		private AuditHistory()
 		{
+			_id = Guid.NewGuid();
 		}
 
-		public AuditHistory(User user, string operation, string result)
+		public AuditHistory(User user, string operation, string result) : this()
 		{
 			User = user;
 			Operation = operation;
