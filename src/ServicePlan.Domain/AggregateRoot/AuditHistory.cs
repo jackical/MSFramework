@@ -5,24 +5,28 @@ namespace ServicePlan.Domain.AggregateRoot
 {
 	public class AuditHistory : ValueObject
 	{
-		private User _user;
+		public User User { get; }
 
-		private string _operation;
+		public string Operation { get; }
 
-		private string _result;
+		public string Result { get; }
+
+		private AuditHistory()
+		{
+		}
 
 		public AuditHistory(User user, string operation, string result)
 		{
-			_user = user;
-			_operation = operation;
-			_result = result;
+			User = user;
+			Operation = operation;
+			Result = result;
 		}
 
 		protected override IEnumerable<object> GetAtomicValues()
 		{
-			yield return _user;
-			yield return _operation;
-			yield return _result;
+			yield return User;
+			yield return Operation;
+			yield return Result;
 		}
 	}
 }

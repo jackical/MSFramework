@@ -2,35 +2,34 @@ using MSFramework.Domain;
 
 namespace ServicePlan.Domain.AggregateRoot
 {
-	public class ServicePlanType: Enumeration
+	/// <summary>
+	/// 计划类型
+	/// </summary>
+	public enum ServicePlanType : byte
 	{
 		/// <summary>
 		/// 数据产品
 		/// </summary>
-		public static ServicePlanType Data = new ServicePlanType(1, nameof(Data).ToLowerInvariant());
-		
+		Data,
+
 		/// <summary>
 		/// 调研
 		/// </summary>
-		public static ServicePlanType Survey = new ServicePlanType(2, nameof(Survey).ToLowerInvariant());
-		
+		Survey,
+
 		/// <summary>
 		/// 电话
 		/// </summary>
-		public static ServicePlanType Tel = new ServicePlanType(3, nameof(Tel).ToLowerInvariant());
-		
+		Tel,
+
 		/// <summary>
 		/// 会议
 		/// </summary>
-		public static ServicePlanType Conference = new ServicePlanType(4, nameof(Conference).ToLowerInvariant());
-		
+		Conference,
+
 		/// <summary>
 		/// 路演
 		/// </summary>
-		public static ServicePlanType RoadShow = new ServicePlanType(5, nameof(RoadShow).ToLowerInvariant());
-		
-		public ServicePlanType(int id, string name) : base(id, name)
-		{
-		}
+		RoadShow
 	}
 }

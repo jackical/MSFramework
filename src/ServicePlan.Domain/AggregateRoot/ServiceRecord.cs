@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using MSFramework.Domain;
 
 namespace ServicePlan.Domain.AggregateRoot
@@ -39,7 +40,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 是否继续委托
 		/// </summary>
-		private bool _continue;
+		private bool? _continue;
 
 		/// <summary>
 		/// 修改要求
@@ -54,13 +55,19 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 销售打分
 		/// </summary>
-		private int _score;
+		private int? _score;
 
 		/// <summary>
 		/// 销售反馈
 		/// </summary>
 		private string _feedback;
-		
+
+		public IReadOnlyCollection<ClientUser> ClientUsers => _clientUsers;
+
+		private ServiceRecord()
+		{
+		}
+
 		public ServiceRecord(DateTime serviceTime, ServicePlanType planType, string subject, string industryId, List<ClientUser> clientUsers)
 		{
 			_serviceTime = serviceTime;
@@ -70,15 +77,19 @@ namespace ServicePlan.Domain.AggregateRoot
 			_clientUsers = clientUsers;
 		}
 
-		public void SetScoreAndFeedback(string clientFocusKeyPoint, bool @continue, string modificationRequirement,
-			string newRequirement, int score, string feedback)
+		public void SetScore(int score, string feedback)
+		{
+			_score = score;
+			_feedback = feedback;
+		}
+
+		public void SetInfo(string clientFocusKeyPoint, bool @continue, string modificationRequirement,
+			string newRequirement)
 		{
 			_clientFocusKeyPoint = clientFocusKeyPoint;
 			_continue = @continue;
 			_modificationRequirement = modificationRequirement;
 			_newRequirement = newRequirement;
-			_score = score;
-			_feedback = feedback;
 		}
 
 		public void SetClientUsers(List<ClientUser> clientUsers)

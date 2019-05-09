@@ -13,22 +13,24 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// </summary>
 		private DateTime _creationTime;
 
-		private bool _success;
-
 		/// <summary>
 		/// 是否发送成功
 		/// </summary>
-		public bool Success => _success;
+		public bool? Success { get; private set; }
 
 		/// <summary>
 		/// 邮件响应时间
 		/// </summary>
-		public DateTime ResponseTime { get; private set; }
+		public DateTime? ResponseTime { get; private set; }
 
 		/// <summary>
 		/// 客户联系人
 		/// </summary>
 		public ClientUser ClientUser { get; }
+
+		private EmailRecord()
+		{
+		}
 
 		public EmailRecord(ClientUser clientUser, DateTime creationTime, Guid identity) : base(identity)
 		{
@@ -39,13 +41,13 @@ namespace ServicePlan.Domain.AggregateRoot
 		public void SetSuccess(DateTime responseTime)
 		{
 			ResponseTime = responseTime;
-			_success = true;
+			Success = true;
 		}
 
 		public void SetFailed(DateTime responseTime)
 		{
 			ResponseTime = responseTime;
-			_success = false;
+			Success = false;
 		}
 	}
 }

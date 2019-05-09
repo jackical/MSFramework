@@ -34,8 +34,6 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// </summary>
 	public class CreateRoadShowPlanEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
-		public Guid OwnerId { get; }
-         
 		public List<ClientUser> ClientUsers { get; }
          
 		public string Address { get; }
@@ -52,7 +50,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public CreateRoadShowPlanEvent(List<ClientUser> clientUsers, User user, User creator,
 			string name, string address,
-			DateTime beginTime, DateTime endTime, Guid ownerId)
+			DateTime beginTime, DateTime endTime)
 		{
 			ClientUsers = clientUsers;
 			User = user;
@@ -61,7 +59,6 @@ namespace ServicePlan.Domain.AggregateRoot
 			Address = address;
 			BeginTime = beginTime;
 			EndTime = endTime;
-			OwnerId = ownerId;
 		}
 	}
 
@@ -223,6 +220,22 @@ namespace ServicePlan.Domain.AggregateRoot
 	public class SetScoreEvent: AggregateRootChangedEvent<ServicePlan, Guid>
 	{
 		public Guid ServiceRecordId { get; }
+		
+		public int Score { get; }
+
+		public string Feedback { get; }
+
+		public SetScoreEvent(Guid serviceRecordId, int score, string feedback)
+		{
+			ServiceRecordId = serviceRecordId;
+			Score = score;
+			Feedback = feedback;
+		}
+	}
+
+	public class SetServiceRecordInfoEvent : AggregateRootChangedEvent<ServicePlan, Guid>
+	{
+		public Guid ServiceRecordId { get; }
 
 		public string ClientFocusKeyPoint { get; }
 
@@ -231,21 +244,15 @@ namespace ServicePlan.Domain.AggregateRoot
 		public string ModificationRequirement { get; }
 
 		public string NewRequest { get; }
-
-		public int Score { get; }
-
-		public string Feedback { get; }
-
-		public SetScoreEvent(Guid serviceRecordId, string clientFocusKeyPoint, bool @continue,
-			string modificationRequirement, string newRequirement, int score, string feedback)
+		
+		public SetServiceRecordInfoEvent(Guid serviceRecordId, string clientFocusKeyPoint, bool @continue,
+			string modificationRequirement, string newRequirement)
 		{
 			ServiceRecordId = serviceRecordId;
 			ClientFocusKeyPoint = clientFocusKeyPoint;
 			Continue = @continue;
 			ModificationRequirement = modificationRequirement;
 			NewRequest = newRequirement;
-			Score = score;
-			Feedback = feedback;
 		}
 	}
 }

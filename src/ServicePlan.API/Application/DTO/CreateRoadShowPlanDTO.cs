@@ -18,14 +18,16 @@ namespace ServicePlan.API.Application.DTO
 
 		public DateTime EndTime { get; }
 
-		public Guid Owner { get; }
+		public Guid SchedulerId { get; }
+
+		public Guid AppointmentId { get; }
 
 		public CreateRoadShowPlanDTO()
 		{
 		}
 
 		public CreateRoadShowPlanDTO(List<ClientUser> clientUsers, User user, User creator, string address,
-			DateTime beginTime, DateTime endTime, Guid owner)
+			DateTime beginTime, DateTime endTime, Guid schedulerId, Guid appointmentId)
 		{
 			ClientUsers = clientUsers;
 			User = user;
@@ -33,7 +35,8 @@ namespace ServicePlan.API.Application.DTO
 			Address = address;
 			BeginTime = beginTime;
 			EndTime = endTime;
-			Owner = owner;
+			SchedulerId = schedulerId;
+			AppointmentId = appointmentId;
 		}
 	}
 }

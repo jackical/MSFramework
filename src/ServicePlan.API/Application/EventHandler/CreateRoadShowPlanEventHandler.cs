@@ -18,7 +18,7 @@ namespace ServicePlan.API.Application.EventHandler
 		public async Task Handle(CreateRoadShowServicePlanEvent @event)
 		{
 			var dto = new CreateRoadShowPlanDTO(@event.ClientUsers, @event.User, @event.CreatorUser, @event.Address,
-				@event.BeginTime, @event.EndTime, @event.OwnerId);
+				@event.BeginTime, @event.EndTime, @event.SchedulerId, @event.AppointmentId);
 
 			await _servicePlanAppService.CreateRoadShowPlan(dto);
 		}

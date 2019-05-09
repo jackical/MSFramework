@@ -2,14 +2,24 @@ using MSFramework.Domain;
 
 namespace ServicePlan.Domain.AggregateRoot
 {
-	public class AuditState : Enumeration
+	/// <summary>
+	/// 合规审核装填
+	/// </summary>
+	public enum AuditState : byte
 	{
-		public static AuditState AwaitingValidation = new AuditState(1, nameof(AwaitingValidation).ToLowerInvariant());
-		public static AuditState Confirmed = new AuditState(2, nameof(Confirmed).ToLowerInvariant());
-		public static AuditState Dismissed = new AuditState(3, nameof(Dismissed).ToLowerInvariant());
-		
-		public AuditState(int id, string name) : base(id, name)
-		{
-		}
+		/// <summary>
+		/// 待审核
+		/// </summary>
+		AwaitingValidation,
+
+		/// <summary>
+		/// 审核通过
+		/// </summary>
+		Confirmed,
+
+		/// <summary>
+		/// 审核失败
+		/// </summary>
+		Dismissed
 	}
 }

@@ -15,6 +15,10 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public string ShortName { get; }
 
+		private Client()
+		{
+		}
+
 		public Client(Guid id, string name, string shortName)
 		{
 			Id = id;

@@ -13,6 +13,10 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public string Abstract { get; }
 
+		private DataReport()
+		{
+		}
+
 		public DataReport(string reportTitle, string @abstract)
 		{
 			ReportTitle = reportTitle;

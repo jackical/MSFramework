@@ -19,7 +19,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		
 		private DateTime _endTime;
 		
-		private DateTime _bookTime;
+		private DateTime? _bookTime;
 
 		/// <summary>
 		/// 可路演地点
@@ -37,14 +37,24 @@ namespace ServicePlan.Domain.AggregateRoot
 		private List<ClientUser> _clientUsers;
 
 		/// <summary>
-		/// 销售
-		/// </summary>
-		private User _sale;
-		
-		/// <summary>
 		/// 描述
 		/// </summary>
 		private string _description;
+
+		/// <summary>
+		/// 计划标识
+		/// </summary>
+		public Guid? PlanId { get; private set; }
+
+		/// <summary>
+		/// 销售
+		/// </summary>
+		public User Sale { get; private set; }
+
+		/// <summary>
+		/// 客户联系人
+		/// </summary>
+		//public IReadOnlyCollection<ClientUser> ClientUsers => _clientUsers;
 
 		public bool Booked => _booked;
 
@@ -66,10 +76,23 @@ namespace ServicePlan.Domain.AggregateRoot
 
 			_address = address;
 			_clientUsers = clientUsers;
-			_sale = sale;
+			Sale = sale;
 			_bookTime = bookTime;
 			_description = description;
 			_booked = true;
+		}
+
+		public void SetPlanId(Guid planId)
+		{
+			PlanId = planId;
+		}
+
+		public void Cancel()
+		{
+			_booked = false;
+			_location = string.Empty;
+			PlanId = Guid.Empty;
+			_bookTime = null;
 		}
 	}
 }

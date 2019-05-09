@@ -17,11 +17,6 @@ namespace ServicePlan.Domain.AggregateRoot
 		private readonly List<Appointment> _appointments = new List<Appointment>(0);
 
 		/// <summary>
-		/// 研究员
-		/// </summary>
-		private User _user;
-
-		/// <summary>
 		/// 开始时间
 		/// </summary>
 		private DateTime _beginTime;
@@ -40,6 +35,15 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// 可路演时间
 		/// </summary>
 		public IReadOnlyCollection<Appointment> Appointments => _appointments;
+
+		/// <summary>
+		/// 负责人
+		/// </summary>
+		public User User { get; private set; }
+
+		private RoadShowWeekScheduler()
+		{
+		}
 
 		/// <summary>
 		/// 路演计划
@@ -105,7 +109,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 			// 发送添加服务计划的事件
 			AddDomainEvent(
-				new CreateRoadShowServicePlanEvent(client, clientUsers, address, _user, sale, _beginTime, _endTime,
+				new CreateRoadShowServicePlanEvent(Id, client, clientUsers, address, User, sale, _beginTime, _endTime,
 					appointmentId));
 		}
 
@@ -115,10 +119,23 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <param name="appointmentId">预约标识</param>
 		public void CancelAppointWithClient(Guid appointmentId)
 		{
-			ApplyChangedEvent(new CancelAppointEvent(appointmentId));
+			var appointment = _appointments.FirstOrDefault(a => a.Id == appointmentId);
+			appointment.NotNull(nameof(appointment));
+			
+			ApplyChangedEvent(new CancelAppointEvent(appointment));
 			
 			// 发送删除服务计划的事件
-			AddDomainEvent(new CancelRoadShowServicePlanEvent(appointmentId));
+			AddDomainEvent(new RoadShowPlanCanceledEvent(appointment.PlanId.Value));
+		}
+
+		/// <summary>
+		/// 路演计划创建后
+		/// </summary>
+		/// <param name="appointmentId">预约标识</param>
+		/// <param name="planId">计划标识</param>
+		public void RoadShowPlanCreated(Guid appointmentId, Guid planId)
+		{
+			ApplyChangedEvent(new RoadShowPlanCreatedAggregateEvent(appointmentId, planId));
 		}
 
 		#region ApplyMethods
@@ -130,7 +147,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(CreateWeekSchedulerEvent @event)
 		{
-			_user = @event.User;
+			User = @event.User;
 			_beginTime = @event.BeginTime;
 			_endTime = @event.EndTime;
 		}
@@ -150,10 +167,13 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(CancelAppointEvent @event)
 		{
-			var appointment = _appointments.FirstOrDefault(a => a.Id == @event.AppointmentId);
-			appointment.NotNull(nameof(appointment));
+			var appointment = @event.Appointment;
+			if (!appointment.Booked)
+			{
+				throw new ServicePlanException("未预约");
+			}
 			
-			_appointments.Remove(appointment);
+			appointment.Cancel();
 		}
 
 		private void Apply(RemoveIdleDateTimeEvent @event)
@@ -166,6 +186,14 @@ namespace ServicePlan.Domain.AggregateRoot
 				throw new ServicePlanException("已预约,无法删除");
 			}
 			_appointments.Remove(appointment);
+		}
+
+		private void Apply(RoadShowPlanCreatedAggregateEvent @event)
+		{
+			var appointment = _appointments.FirstOrDefault(a => a.Id == @event.AppointmentId);
+			appointment.NotNull(nameof(appointment));
+			
+			appointment.SetPlanId(@event.PlanId);
 		}
 
 		#endregion

@@ -13,14 +13,18 @@
 
 
   <ItemGroup>
-    <Folder Include="Application\Event" />
+    <ProjectReference Include="..\MSFramework.EntityFrameworkCore\MSFramework.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\MSFramework\MSFramework.csproj" />
+    <ProjectReference Include="..\ServicePlan.Domain\ServicePlan.Domain.csproj" />
+    <ProjectReference Include="..\ServicePlan.Infrastructure\ServicePlan.Infrastructure.csproj" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <ProjectReference Include="..\MSFramework.EntityFrameworkCore\MSFramework.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\MSFramework\MSFramework.csproj" />
-    <ProjectReference Include="..\ServicePlan.Domain\ServicePlan.Domain.csproj" />
+    <Content Update="appsettings.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

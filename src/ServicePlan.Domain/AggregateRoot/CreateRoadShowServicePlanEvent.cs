@@ -9,7 +9,9 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// </summary>
 	public class CreateRoadShowServicePlanEvent : LocalDomainEvent
 	{
-		public Guid OwnerId { get; }
+		public Guid SchedulerId { get; }
+
+		public Guid AppointmentId { get; }
 
 		public Client Client { get; }
 
@@ -25,9 +27,10 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public User CreatorUser { get; }
 
-		public CreateRoadShowServicePlanEvent(Client client, List<ClientUser> clientUsers, string address, User user,
-			User creator, DateTime beginTime, DateTime endTime, Guid ownerId)
+		public CreateRoadShowServicePlanEvent(Guid schedulerId, Client client, List<ClientUser> clientUsers, string address, User user,
+			User creator, DateTime beginTime, DateTime endTime, Guid appointmentId)
 		{
+			SchedulerId = schedulerId;
 			Client = client;
 			ClientUsers = clientUsers;
 			User = user;
@@ -35,7 +38,7 @@ namespace ServicePlan.Domain.AggregateRoot
 			Address = address;
 			BeginTime = beginTime;
 			EndTime = endTime;
-			OwnerId = ownerId;
+			AppointmentId = appointmentId;
 		}
 	}
 }

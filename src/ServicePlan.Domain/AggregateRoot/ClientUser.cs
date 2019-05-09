@@ -18,7 +18,12 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public string LastName { get; }
 
-		public ClientUser(Guid clientUserId, string firstName, string lastName, Guid clientId, string clientName, string clientShortName)
+		private ClientUser()
+		{
+		}
+
+		public ClientUser(Guid clientUserId, string firstName, string lastName, Guid clientId, string clientName,
+			string clientShortName)
 		{
 			ClientUserId = clientUserId;
 			FirstName = firstName;

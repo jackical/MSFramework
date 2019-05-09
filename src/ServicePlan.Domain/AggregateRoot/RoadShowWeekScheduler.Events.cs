@@ -79,11 +79,11 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// </summary>
 	public class CancelAppointEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
 	{
-		public Guid AppointmentId { get; }
+		public Appointment Appointment { get; }
 
-		public CancelAppointEvent(Guid appointmentId)
+		public CancelAppointEvent(Appointment appointment)
 		{
-			AppointmentId = appointmentId;
+			Appointment = appointment;
 		}
 	}
 
@@ -110,6 +110,19 @@ namespace ServicePlan.Domain.AggregateRoot
 		public BindKeyIdeaAndTopicEvent(string keyIdeaAndTopic)
 		{
 			KeyIdeaAndTopic = keyIdeaAndTopic;
+		}
+	}
+
+	public class RoadShowPlanCreatedAggregateEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
+	{
+		public Guid AppointmentId { get; }
+
+		public Guid PlanId { get; }
+
+		public RoadShowPlanCreatedAggregateEvent(Guid appointmentId, Guid planId)
+		{
+			AppointmentId = appointmentId;
+			PlanId = planId;
 		}
 	}
 }

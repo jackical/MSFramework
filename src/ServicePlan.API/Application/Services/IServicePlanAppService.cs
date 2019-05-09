@@ -8,6 +8,6 @@ namespace ServicePlan.API.Application.Services
 	public interface IServicePlanAppService : IApplicationService
 	{
 		Task CreateRoadShowPlan(CreateRoadShowPlanDTO dto);
-		Task CancelRoadShowServicePlan(Guid eventAppointmentId);
+		Task CancelRoadShowServicePlan(Guid planId);
 	}
 }

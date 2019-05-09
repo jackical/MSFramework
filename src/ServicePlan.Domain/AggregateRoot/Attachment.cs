@@ -8,7 +8,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 附件类型
 		/// </summary>
-		private string _type;
+		private AttachmentType _type;
 
 		/// <summary>
 		/// 附件名称
@@ -25,7 +25,11 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// </summary>
 		private DateTime _creationTime;
 
-		public Attachment(string type, string name, string path, DateTime creationTime)
+		private Attachment()
+		{
+		}
+
+		public Attachment(AttachmentType type, string name, string path, DateTime creationTime)
 		{
 			_type = type;
 			_name = name;

@@ -5,18 +5,18 @@ using ServicePlan.Domain.AggregateRoot;
 
 namespace ServicePlan.API.Application.EventHandler
 {
-	public class CancelRoadShowServicePlanEventHandler : IEventHandler<CancelRoadShowServicePlanEvent>
+	public class RoadShowPlanCanceledEventHandler : IEventHandler<RoadShowPlanCanceledEvent>
 	{
 		private readonly IServicePlanAppService _servicePlanAppService;
 
-		public CancelRoadShowServicePlanEventHandler(IServicePlanAppService servicePlanAppService)
+		public RoadShowPlanCanceledEventHandler(IServicePlanAppService servicePlanAppService)
 		{
 			_servicePlanAppService = servicePlanAppService;
 		}
 		
-		public async Task Handle(CancelRoadShowServicePlanEvent @event)
+		public async Task Handle(RoadShowPlanCanceledEvent @event)
 		{
-			await _servicePlanAppService.CancelRoadShowServicePlan(@event.AppointmentId);
+			await _servicePlanAppService.CancelRoadShowServicePlan(@event.PlanId);
 		}
 	}
 }
