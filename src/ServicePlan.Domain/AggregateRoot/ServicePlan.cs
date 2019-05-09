@@ -456,7 +456,14 @@ namespace ServicePlan.Domain.AggregateRoot
 				throw new ServicePlanException("计划类型不匹配");
 			}
 
-			
+			var notifiers = new List<Guid>();
+			var clientUsers = Product.Subscriber.Where(a => @event.ClientUsers.Contains(a.ClientUserId)).ToArray();
+			foreach (var clientUser in clientUsers)
+			{
+				var recordId = Guid.NewGuid();
+				_emailRecords.Add(new EmailRecord(clientUser, @event.CreationTime, recordId));
+				notifiers.Add(recordId);
+			}
 
 			//todo 根据模板生成邮件内容，创建发送邮件领域事件
 		}
@@ -500,7 +507,11 @@ namespace ServicePlan.Domain.AggregateRoot
 					throw new ServicePlanException("未发送邮件");
 				}
 
-			
+				var clientUsers = Product.Subscriber;
+				if (records.Length != clientUsers.Count)
+				{
+					throw new ServicePlanException("有部分客户尚未发送邮件或发送邮件没有成功");
+				}
 
 				foreach (var record in records)
 				{
