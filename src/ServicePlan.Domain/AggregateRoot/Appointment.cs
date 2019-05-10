@@ -49,7 +49,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 销售
 		/// </summary>
-		public User Sale { get; private set; }
+		public string Sale { get; private set; }
 
 		/// <summary>
 		/// 客户联系人
@@ -66,7 +66,7 @@ namespace ServicePlan.Domain.AggregateRoot
 			_booked = false;
 		}
 
-		public void MakeAppointWithClient(string address, List<ClientUser> clientUsers, User sale, string description,
+		public void MakeAppointWithClient(string address, List<ClientUser> clientUsers, string sale, string description,
 			DateTime bookTime)
 		{
 			if (_booked)

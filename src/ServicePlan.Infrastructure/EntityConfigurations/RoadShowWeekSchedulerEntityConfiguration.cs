@@ -15,16 +15,7 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 		{ 
 			roadShowConfiguration.HasKey(o => o.Id);
 
-			//Address value object persisted as owned entity type supported since EF Core 2.0
-			roadShowConfiguration.OwnsOne(o => o.User,builder =>
-			{
-				builder.Property(u => u.UserId);
-				builder.Property(u => u.Email).HasMaxLength(200);
-				builder.Property(u => u.LastName).HasMaxLength(100);
-				builder.Property(u => u.FirstName).HasMaxLength(100);
-				builder.Property(u => u.TeamName).HasMaxLength(200);
-				builder.Property(u => u.GroupName).HasMaxLength(200);
-			});
+			roadShowConfiguration.Property(o => o.User).IsRequired().HasMaxLength(50);
 
 			roadShowConfiguration.Property<DateTime>("BeginTime").IsRequired();
 			roadShowConfiguration.Property<DateTime>("EndTime").IsRequired();

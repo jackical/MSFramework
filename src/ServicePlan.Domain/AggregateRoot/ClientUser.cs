@@ -8,13 +8,13 @@ namespace ServicePlan.Domain.AggregateRoot
 	{
 		private Guid _id;
 		
-		public Guid ClientId { get; private set; }
+		public string ClientId { get; private set; }
 
 		public string ClientName { get; private set; }
 
 		public string ClientShortName { get; private set; }
 
-		public Guid ClientUserId { get; private set; }
+		public string ClientUserId { get; private set; }
 
 		public string FirstName { get; private set; }
 
@@ -24,7 +24,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		{
 		}
 
-		public ClientUser(Guid clientUserId, string firstName, string lastName, Guid clientId, string clientName,
+		public ClientUser(string clientUserId, string firstName, string lastName, string clientId, string clientName,
 			string clientShortName) 
 		{
 			ClientUserId = clientUserId;

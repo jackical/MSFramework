@@ -30,87 +30,27 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 			
 			configuration.Property<bool>("Deleted").IsRequired().HasDefaultValue(false);
 
-			configuration.OwnsOne(o => o.Product, sa =>
-			{
-				//sa.HasKey("_id");
-				sa.Property(p => p.ProductId);
-				sa.Property(p => p.Name).HasMaxLength(200);
-				sa.Property(p => p.Type);
-				sa.OwnsMany(p => p.Subscriber, g =>
-				{
-					g.HasKey("_id");
-					g.Property(user => user.ClientId);
-					g.Property(user => user.ClientName).HasMaxLength(200);
-					g.Property(user => user.ClientUserId);
-					g.Property(user => user.ClientShortName).HasMaxLength(200);
-					g.Property(user => user.LastName).HasMaxLength(50);
-					g.Property(user => user.FirstName).HasMaxLength(50);
-				});
-			});
+			configuration.Property(o => o.ProductId).HasMaxLength(50).IsRequired(false);
 			
-			configuration.OwnsOne(o => o.QcUser, builder =>
-			{
-				//builder.HasKey("_id");
-				builder.Property(u => u.UserId);
-				builder.Property(u => u.Email).HasMaxLength(200);
-				builder.Property(u => u.LastName).HasMaxLength(100);
-				builder.Property(u => u.FirstName).HasMaxLength(100);
-				builder.Property(u => u.TeamName).HasMaxLength(200);
-				builder.Property(u => u.GroupName).HasMaxLength(200);
-			});
+			configuration.Property(o => o.QcUser).HasMaxLength(50).IsRequired(false);
 			
-			configuration.OwnsOne(o => o.User, builder =>
-			{
-				//builder.HasKey("_id");
-				builder.Property(u => u.UserId);
-				builder.Property(u => u.Email).HasMaxLength(200);
-				builder.Property(u => u.LastName).HasMaxLength(100);
-				builder.Property(u => u.FirstName).HasMaxLength(100);
-				builder.Property(u => u.TeamName).HasMaxLength(200);
-				builder.Property(u => u.GroupName).HasMaxLength(200);
-			});
+			configuration.Property(o => o.User).HasMaxLength(50).IsRequired();
 			
-			configuration.OwnsOne(o => o.Creator,builder =>
-			{
-				//builder.HasKey("_id");
-				builder.Property(u => u.UserId);
-				builder.Property(u => u.Email).HasMaxLength(200);
-				builder.Property(u => u.LastName).HasMaxLength(100);
-				builder.Property(u => u.FirstName).HasMaxLength(100);
-				builder.Property(u => u.TeamName).HasMaxLength(200);
-				builder.Property(u => u.GroupName).HasMaxLength(200);
-			});
+			configuration.Property(o => o.Creator).HasMaxLength(50).IsRequired();
 			
-			configuration.OwnsOne(o => o.AuditUser, builder =>
-			{
-				//builder.HasKey("_id");
-				builder.Property(u => u.UserId);
-				builder.Property(u => u.Email).HasMaxLength(200);
-				builder.Property(u => u.LastName).HasMaxLength(100);
-				builder.Property(u => u.FirstName).HasMaxLength(100);
-				builder.Property(u => u.TeamName).HasMaxLength(200);
-				builder.Property(u => u.GroupName).HasMaxLength(200);
-			});
+			configuration.Property(o => o.AuditUser).HasMaxLength(50).IsRequired(false);
 
 			configuration.OwnsOne(o => o.RoadShow, builder =>
 			{
-				//builder.HasKey("_id");
 				builder.Property(rs => rs.Address).HasMaxLength(500);
 				builder.OwnsMany(rs => rs.ClientUsers, g =>
 				{
 					g.HasKey("_id");
-					g.Property(user => user.ClientId);
-					g.Property(user => user.ClientName).HasMaxLength(200);
-					g.Property(user => user.ClientUserId);
-					g.Property(user => user.ClientShortName).HasMaxLength(200);
-					g.Property(user => user.LastName).HasMaxLength(50);
-					g.Property(user => user.FirstName).HasMaxLength(50);
 				});
 			});
 
 			configuration.OwnsOne(o => o.DataReport, builder =>
 			{
-				//builder.HasKey("_id");
 				builder.Property(dr => dr.Abstract).IsRequired(false).HasMaxLength(2000);
 				builder.Property(dr => dr.ReportTitle).IsRequired(false).HasMaxLength(200);
 			});
@@ -118,17 +58,9 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 			configuration.OwnsMany(o => o.AuditHistory, builder =>
 			{
 				builder.HasKey("_id");
-				builder.Property(a => a.Result).HasMaxLength(300);
-				builder.Property(a => a.Operation).HasMaxLength(100);
-				builder.OwnsOne(a => a.User, g =>
-				{
-					//g.HasKey("_id");
-					g.Property(u => u.Email).HasMaxLength(200);
-					g.Property(u => u.LastName).HasMaxLength(100);
-					g.Property(u => u.FirstName).HasMaxLength(100);
-					g.Property(u => u.TeamName).HasMaxLength(100);
-					g.Property(u => u.GroupName).HasMaxLength(100);
-				});
+				builder.Property(a => a.Result).IsRequired().HasMaxLength(300);
+				builder.Property(a => a.Operation).IsRequired().HasMaxLength(100);
+				builder.Property(a => a.User).IsRequired().HasMaxLength(50);
 			});
 
 			//var roadShowNavigation = configuration.Metadata.FindNavigation("RoadShow");

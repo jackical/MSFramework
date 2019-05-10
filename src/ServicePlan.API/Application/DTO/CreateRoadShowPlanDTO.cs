@@ -8,9 +8,9 @@ namespace ServicePlan.API.Application.DTO
 	{
 		public List<ClientUser> ClientUsers { get; }
 
-		public User User { get; }
+		public string User { get; }
 
-		public User Creator { get; }
+		public string Creator { get; }
 
 		public string Address { get; }
 
@@ -26,7 +26,7 @@ namespace ServicePlan.API.Application.DTO
 		{
 		}
 
-		public CreateRoadShowPlanDTO(List<ClientUser> clientUsers, User user, User creator, string address,
+		public CreateRoadShowPlanDTO(List<ClientUser> clientUsers, string user, string creator, string address,
 			DateTime beginTime, DateTime endTime, Guid schedulerId, Guid appointmentId)
 		{
 			ClientUsers = clientUsers;

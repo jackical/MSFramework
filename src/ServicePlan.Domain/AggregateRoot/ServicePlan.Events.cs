@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MSFramework.Domain;
+using ServicePlan.Domain.Services;
 
 namespace ServicePlan.Domain.AggregateRoot
 {
@@ -9,9 +10,9 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// </summary>
 	public class CreateServicePlanEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
-		public Product Product { get; }
+		public string ProductId { get; }
 
-		public User User { get; }
+		public string User { get; }
 
 		public string Name { get; }
 
@@ -19,9 +20,12 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public DateTime EndTime { get; }
 
-		public CreateServicePlanEvent(Product product, User user, string name, DateTime beginTime, DateTime endTime)
+		public ServicePlanType PlanType { get; }
+
+		public CreateServicePlanEvent(string productId, ServicePlanType planType,  string user, string name, DateTime beginTime, DateTime endTime)
 		{
-			Product = product;
+			ProductId = productId;
+			PlanType = planType;
 			User = user;
 			Name = name;
 			BeginTime = beginTime;
@@ -44,11 +48,11 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public string Name { get; }
 
-		public User User { get; }
+		public string User { get; }
 
-		public User CreatorUser { get; }
+		public string CreatorUser { get; }
 
-		public CreateRoadShowPlanEvent(List<ClientUser> clientUsers, User user, User creator,
+		public CreateRoadShowPlanEvent(List<ClientUser> clientUsers, string user, string creator,
 			string name, string address,
 			DateTime beginTime, DateTime endTime)
 		{
@@ -100,9 +104,9 @@ namespace ServicePlan.Domain.AggregateRoot
 
 	public class QcVerifySuccessEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
-		public User User { get; }
+		public string User { get; }
 
-		public QcVerifySuccessEvent(User user)
+		public QcVerifySuccessEvent(string user)
 		{
 			User = user;
 		}
@@ -110,9 +114,9 @@ namespace ServicePlan.Domain.AggregateRoot
 
 	public class QcVerifyFailedEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
-		public User User { get; }
+		public string User { get; }
 
-		public QcVerifyFailedEvent(User user)
+		public QcVerifyFailedEvent(string user)
 		{
 			User = user;
 		}
@@ -120,9 +124,9 @@ namespace ServicePlan.Domain.AggregateRoot
 	
 	public class AuditSuccessEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
-		public User User { get; }
+		public string User { get; }
 
-		public AuditSuccessEvent(User user)
+		public AuditSuccessEvent(string user)
 		{
 			User = user;
 		}
@@ -130,9 +134,9 @@ namespace ServicePlan.Domain.AggregateRoot
 
 	public class AuditFailedEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
-		public User User { get; }
+		public string User { get; }
 
-		public AuditFailedEvent(User user)
+		public AuditFailedEvent(string user)
 		{
 			User = user;
 		}
@@ -153,9 +157,9 @@ namespace ServicePlan.Domain.AggregateRoot
 
 	public class SubmitAuditEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
-		public User User { get; }
+		public string User { get; }
 
-		public SubmitAuditEvent(User user)
+		public SubmitAuditEvent(string user)
 		{
 			User = user;
 		}
@@ -163,11 +167,11 @@ namespace ServicePlan.Domain.AggregateRoot
 
 	public class SendEmailEvent : AggregateRootChangedEvent<ServicePlan, Guid>
 	{
-		public List<Guid> ClientUsers { get; }
-
 		public DateTime CreationTime { get; }
 
-		public SendEmailEvent(List<Guid> clientUsers, DateTime creationTime)
+		public List<ClientUser> ClientUsers { get; }
+
+		public SendEmailEvent(List<ClientUser> clientUsers, DateTime creationTime)
 		{
 			ClientUsers = clientUsers;
 			CreationTime = creationTime;
@@ -253,6 +257,16 @@ namespace ServicePlan.Domain.AggregateRoot
 			Continue = @continue;
 			ModificationRequirement = modificationRequirement;
 			NewRequest = newRequirement;
+		}
+	}
+
+	public class CreateServiceRecordEvent : AggregateRootChangedEvent<ServicePlan, Guid>
+	{
+		public ServiceRecord ServiceRecord { get; }
+
+		public CreateServiceRecordEvent(ServiceRecord record)
+		{
+			ServiceRecord = record;
 		}
 	}
 }

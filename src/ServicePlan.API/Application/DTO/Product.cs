@@ -13,18 +13,18 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public ProductType Type { get; private set; }
 
-		private readonly List<ClientUser> _subscriber;
+		private readonly List<string> _subscriber;
 
 		/// <summary>
 		/// 订阅者
 		/// </summary>
-		public IReadOnlyCollection<ClientUser> Subscriber => _subscriber;
+		public IReadOnlyCollection<string> Subscriber => _subscriber;
 
 		private Product()
 		{
 		}
 
-		public Product(Guid id, string name, ProductType productType, List<ClientUser> subscriber)
+		public Product(Guid id, string name, ProductType productType, List<string> subscriber)
 		{
 			ProductId = id;
 			Name = name;

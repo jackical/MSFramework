@@ -76,7 +76,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 产品信息
 		/// </summary>
-		public Product Product { get; private set; } = Product.Empty();
+		public string ProductId { get; private set; } = string.Empty;
 
 		/// <summary>
 		/// 路演信息
@@ -91,22 +91,22 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 质量检测人
 		/// </summary>
-		public User QcUser { get; private set; } = User.Empty();
+		public string QcUser { get; private set; } = string.Empty;
 
 		/// <summary>
 		/// 负责人
 		/// </summary>
-		public User User { get; private set; } = User.Empty();
+		public string User { get; private set; } = string.Empty;
 
 		/// <summary>
 		/// 创建人
 		/// </summary>
-		public User Creator { get; private set; } = User.Empty();
+		public string Creator { get; private set; } = string.Empty;
 
 		/// <summary>
 		/// 最后合规人
 		/// </summary>
-		public User AuditUser { get; private set; } = User.Empty();
+		public string AuditUser { get; private set; } = string.Empty;
 
 		public IReadOnlyCollection<Attachment> Attachments => _attachments;
 
@@ -123,15 +123,16 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 新建服务计划
 		/// </summary>
-		/// <param name="product">产品</param>
+		/// <param name="productId">产品标识</param>
 		/// <param name="name">计划名称</param>
+		/// <param name="planType">计划类型</param>
 		/// <param name="user">用户信息</param>
 		/// <param name="beginTime">开始时间</param>
 		/// <param name="endTime">结束时间</param>
-		public ServicePlan(Product product, User user, string name,
+		public ServicePlan(string productId, ServicePlanType planType, string user, string name,
 			DateTime beginTime, DateTime endTime)
 		{
-			ApplyChangedEvent(new CreateServicePlanEvent(product, user, name, beginTime, endTime));
+			ApplyChangedEvent(new CreateServicePlanEvent(productId, planType, user, name, beginTime, endTime));
 		}
 
 		/// <summary>
@@ -144,7 +145,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <param name="beginTime">开始时间</param>
 		/// <param name="endTime">结束时间</param>
 		/// <param name="user">用户</param>
-		public ServicePlan(List<ClientUser> clientUsers, User user, User creator, string name,
+		public ServicePlan(List<ClientUser> clientUsers, string user, string creator, string name,
 			string address, DateTime beginTime, DateTime endTime)
 		{
 			ApplyChangedEvent(new CreateRoadShowPlanEvent(clientUsers, user, creator, name, address,
@@ -190,7 +191,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// 提交审核
 		/// </summary>
 		/// <param name="user">用户</param>
-		public void SubmitAudit(User user)
+		public void SubmitAudit(string user)
 		{
 			user.NotNull(nameof(user));
 			ApplyChangedEvent(new SubmitAuditEvent(user));
@@ -200,7 +201,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// 质量审核通过
 		/// </summary>
 		/// <param name="user">审核人</param>
-		public void QcVerifySuccess(User user)
+		public void QcVerifySuccess(string user)
 		{
 			user.NotNull(nameof(user));
 			ApplyChangedEvent(new QcVerifySuccessEvent(user));
@@ -210,7 +211,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// 质量审核失败
 		/// </summary>
 		/// <param name="user">审核人</param>
-		public void QcVerifyFailed(User user)
+		public void QcVerifyFailed(string user)
 		{
 			user.NotNull(nameof(user));
 			ApplyChangedEvent(new QcVerifyFailedEvent(user));
@@ -220,7 +221,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// 合规审核通过
 		/// </summary>
 		/// <param name="user">审核人</param>
-		public void AuditSuccess(User user)
+		public void AuditSuccess(string user)
 		{
 			user.NotNull(nameof(user));
 			ApplyChangedEvent(new AuditSuccessEvent(user));
@@ -230,7 +231,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// 合规审核失败
 		/// </summary>
 		/// <param name="user">审核人</param>
-		public void AuditFailed(User user)
+		public void AuditFailed(string user)
 		{
 			user.NotNull(nameof(user));
 			ApplyChangedEvent(new AuditFailedEvent(user));
@@ -240,7 +241,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// 发送报告给客户（限数据产品）
 		/// </summary>
 		/// <param name="clientUsers">客户联系人</param>
-		public void SendEmail(List<Guid> clientUsers)
+		public void SendEmail(List<ClientUser> clientUsers)
 		{
 			clientUsers.NotNull(nameof(clientUsers));
 
@@ -267,6 +268,15 @@ namespace ServicePlan.Domain.AggregateRoot
 		public void Complete(string subject, string industryId)
 		{
 			ApplyChangedEvent(new CompletePlanEvent(subject, industryId));
+		}
+
+		/// <summary>
+		/// 添加服务记录
+		/// </summary>
+		/// <param name="serviceRecord">服务记录对象</param>
+		public void CreateServiceRecord(ServiceRecord serviceRecord)
+		{
+			ApplyChangedEvent(new CreateServiceRecordEvent(serviceRecord));
 		}
 
 		/// <summary>
@@ -306,12 +316,12 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(CreateServicePlanEvent @event)
 		{
-			Product = @event.Product;
+			ProductId = @event.ProductId;
 			_name = @event.Name;
 			_beginTime = @event.BeginTime;
 			_endTime = @event.EndTime;
 			User = @event.User;
-			_planType = (ServicePlanType) Product.Type;
+			_planType = @event.PlanType;
 			_planState = ServicePlanState.AwaitingSubmit;
 		}
 
@@ -324,12 +334,13 @@ namespace ServicePlan.Domain.AggregateRoot
 			_planState = ServicePlanState.Submitted;
 			_planType = ServicePlanType.RoadShow;
 			Creator = @event.CreatorUser;
+			User = @event.User;
 			RoadShow = new RoadShow(@event.ClientUsers, @event.Address);
 		}
 
 		private void Apply(DeleteServicePlanEvent @event)
 		{
-			if (!_planState.Equals(ServicePlanState.AwaitingSubmit))
+			if (_planState != ServicePlanState.AwaitingSubmit)
 			{
 				throw new ServicePlanException("服务计划已提交，无法删除");
 			}
@@ -344,7 +355,7 @@ namespace ServicePlan.Domain.AggregateRoot
 				throw new ServicePlanException("服务计划已删除或不存在");
 			}
 
-			if (!_planState.Equals(ServicePlanState.AwaitingSubmit))
+			if (_planState != ServicePlanState.AwaitingSubmit)
 			{
 				throw new ServicePlanException("服务计划已提交");
 			}
@@ -354,7 +365,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(SetTitleAndAbstractEvent @event)
 		{
-			if (!_planType.Equals(ServicePlanType.Data))
+			if (_planType != ServicePlanType.Data)
 			{
 				throw new ServicePlanException("计划类型不匹配");
 			}
@@ -364,7 +375,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(SubmitAuditEvent @event)
 		{
-			if (!_planType.Equals(ServicePlanType.Data))
+			if (_planType != ServicePlanType.Data)
 			{
 				throw new ServicePlanException("计划类型不匹配");
 			}
@@ -375,9 +386,9 @@ namespace ServicePlan.Domain.AggregateRoot
 				throw new ServicePlanException("未设置报告摘要或标题");
 			}
 
-			if (_planState.Equals(ServicePlanState.Submitted) || _planState.Equals(ServicePlanState.AwaitingAudit) &&
-			    (_auditState.Equals(AuditState.Dismissed) ||
-			     _validationState.Equals(ValidationState.Dismissed)))
+			if (_planState == ServicePlanState.Submitted || _planState == ServicePlanState.AwaitingAudit &&
+			    (_auditState == AuditState.Dismissed ||
+			     _validationState == ValidationState.Dismissed))
 			{
 				_planState = ServicePlanState.AwaitingAudit;
 				_auditState = AuditState.AwaitingValidation;
@@ -393,14 +404,14 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(QcVerifySuccessEvent @event)
 		{
-			if (!_planState.Equals(ServicePlanState.AwaitingAudit))
+			if (_planState != ServicePlanState.AwaitingAudit)
 			{
 				throw new ServicePlanException("尚未提交审核");
 			}
 
 			QcUser = @event.User;
 			_validationState = ValidationState.Confirmed;
-			if (_auditState.Equals(AuditState.Confirmed))
+			if (_auditState == AuditState.Confirmed)
 			{
 				_planState = ServicePlanState.AwaitingComplete;
 			}
@@ -410,7 +421,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(QcVerifyFailedEvent @event)
 		{
-			if (!_planState.Equals(ServicePlanState.AwaitingAudit))
+			if (_planState != ServicePlanState.AwaitingAudit)
 			{
 				throw new ServicePlanException("尚未提交审核");
 			}
@@ -422,14 +433,14 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(AuditSuccessEvent @event)
 		{
-			if (!_planState.Equals(ServicePlanState.AwaitingAudit))
+			if (_planState != ServicePlanState.AwaitingAudit)
 			{
 				throw new ServicePlanException("尚未提交审核");
 			}
 
 			_validationState = ValidationState.Confirmed;
 			AuditUser = @event.User;
-			if (_validationState.Equals(ValidationState.Confirmed))
+			if (_validationState == ValidationState.Confirmed)
 			{
 				_planState = ServicePlanState.AwaitingComplete;
 			}
@@ -439,7 +450,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(AuditFailedEvent @event)
 		{
-			if (!_planState.Equals(ServicePlanState.AwaitingAudit))
+			if (_planState != ServicePlanState.AwaitingAudit)
 			{
 				throw new ServicePlanException("尚未提交审核");
 			}
@@ -451,13 +462,13 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(SendEmailEvent @event)
 		{
-			if (!_planType.Equals(ServicePlanType.Data))
+			if (_planType != ServicePlanType.Data)
 			{
 				throw new ServicePlanException("计划类型不匹配");
 			}
 
 			var notifiers = new List<Guid>();
-			var clientUsers = Product.Subscriber.Where(a => @event.ClientUsers.Contains(a.ClientUserId)).ToArray();
+			var clientUsers = @event.ClientUsers;
 			foreach (var clientUser in clientUsers)
 			{
 				var recordId = Guid.NewGuid();
@@ -492,37 +503,40 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(CompletePlanEvent @event)
 		{
-			if (!_planState.Equals(ServicePlanState.AwaitingComplete))
+			if (_planState != ServicePlanState.AwaitingComplete)
 			{
 				throw new ServicePlanException("状态不正确");
 			}
 
-			if (_planType.Equals(ServicePlanType.Data))
+			switch (_planType)
 			{
-				var records = _emailRecords.Where(a => a.Success == true).GroupBy(a => a.ClientUser.ClientUserId)
-					.Select(a => a.First()).ToArray();
-
-				if (!records.Any())
+				case ServicePlanType.Data:
 				{
-					throw new ServicePlanException("未发送邮件");
-				}
+					var records = _emailRecords.Where(a => a.Success == true).GroupBy(a => a.ClientUser)
+						.Select(a => a.First()).ToArray();
 
-				var clientUsers = Product.Subscriber;
-				if (records.Length != clientUsers.Count)
-				{
-					throw new ServicePlanException("有部分客户尚未发送邮件或发送邮件没有成功");
-				}
+					if (!records.Any())
+					{
+						throw new ServicePlanException("未发送邮件");
+					}
 
-				foreach (var record in records)
-				{
-					_serviceRecords.Add(new ServiceRecord(record.ResponseTime.Value, _planType, @event.Subject,
-						@event.IndustryId, new List<ClientUser> {record.ClientUser}));
+					foreach (var record in records)
+					{
+						_serviceRecords.Add(new ServiceRecord(record.ResponseTime.Value, _planType, @event.Subject,
+							@event.IndustryId, new List<ClientUser> {record.ClientUser}));
+					}
+
+					break;
 				}
-			}
-			else if (_planType.Equals(ServicePlanType.RoadShow))
-			{
-				_serviceRecords.Add(new ServiceRecord(_beginTime, _planType, @event.Subject, @event.IndustryId,
-					RoadShow.ClientUsers));
+				case ServicePlanType.RoadShow:
+				case ServicePlanType.Survey:
+				case ServicePlanType.Tel:
+				case ServicePlanType.Conference:
+					_serviceRecords.Add(new ServiceRecord(_beginTime, _planType, @event.Subject, @event.IndustryId,
+						RoadShow.ClientUsers.ToList()));
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
 
 			_planState = ServicePlanState.Complete;
@@ -535,7 +549,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(SetScoreEvent @event)
 		{
-			if (!_planState.Equals(ServicePlanState.Complete))
+			if (_planState != ServicePlanState.Complete)
 			{
 				throw new ServicePlanException("状态不正确");
 			}
@@ -547,7 +561,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(SetServiceRecordInfoEvent @event)
 		{
-			if (!_planState.Equals(ServicePlanState.Complete))
+			if (_planState != ServicePlanState.Complete)
 			{
 				throw new ServicePlanException("状态不正确");
 			}
@@ -560,7 +574,7 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(SetClientUsersEvent @event)
 		{
-			if (!_planState.Equals(ServicePlanState.Complete))
+			if (_planState != ServicePlanState.Complete)
 			{
 				throw new ServicePlanException("状态不正确");
 			}
@@ -573,6 +587,16 @@ namespace ServicePlan.Domain.AggregateRoot
 			var serviceRecord = _serviceRecords.FirstOrDefault(a => a.Id == @event.ServiceRecordId);
 			serviceRecord.NotNull(nameof(serviceRecord));
 			serviceRecord.SetClientUsers(@event.ClientUsers);
+		}
+
+		private void Apply(CreateServiceRecordEvent @event)
+		{
+			if (_planState != ServicePlanState.Complete)
+			{
+				throw new ServicePlanException("状态不正确");
+			}
+			
+			_serviceRecords.Add(@event.ServiceRecord);
 		}
 	}
 }

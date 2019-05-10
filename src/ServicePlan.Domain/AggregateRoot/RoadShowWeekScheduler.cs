@@ -39,7 +39,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 负责人
 		/// </summary>
-		public User User { get; private set; }
+		public string User { get; private set; }
 
 		private RoadShowWeekScheduler()
 		{
@@ -51,7 +51,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <param name="user">用户</param>
 		/// <param name="beginTime">开始时间</param>
 		/// <param name="endTime">结束时间</param>
-		public RoadShowWeekScheduler(User user, DateTime beginTime, DateTime endTime)
+		public RoadShowWeekScheduler(string user, DateTime beginTime, DateTime endTime)
 		{
 			ApplyChangedEvent(new CreateWeekSchedulerEvent(user, beginTime, endTime));
 		}
@@ -96,8 +96,8 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <param name="clientUsers">客户联系人</param>
 		/// <param name="sale">销售信息</param>
 		/// <param name="description">描述</param>
-		public void MakeAppointWithClient(Guid appointmentId, string address, Client client,
-			List<ClientUser> clientUsers, User sale, string description)
+		public void MakeAppointWithClient(Guid appointmentId, string address, string client,
+			List<ClientUser> clientUsers, string sale, string description)
 		{
 			address.NotNull(nameof(address));
 			client.NotNull(nameof(client));

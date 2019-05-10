@@ -70,13 +70,13 @@ namespace ServicePlan.Domain.AggregateRoot
 		}
 
 		public ServiceRecord(DateTime serviceTime, ServicePlanType planType, string subject, string industryId,
-			IEnumerable<ClientUser> clientUsers)
+			List<ClientUser> clientUsers)
 		{
 			_serviceTime = serviceTime;
 			_servicePlanType = planType;
 			_subject = subject;
 			_industryId = industryId;
-			_clientUsers = clientUsers.ToList();
+			_clientUsers = clientUsers;
 		}
 
 		public void SetScore(int score, string feedback)

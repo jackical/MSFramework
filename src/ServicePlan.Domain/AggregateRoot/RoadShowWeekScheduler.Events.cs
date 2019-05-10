@@ -9,13 +9,13 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// </summary>
 	public class CreateWeekSchedulerEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
 	{
-		public User User { get; }
+		public string User { get; }
 
 		public DateTime BeginTime { get; }
 
 		public DateTime EndTime { get; }
 
-		public CreateWeekSchedulerEvent(User user, DateTime beginTime, DateTime endTime)
+		public CreateWeekSchedulerEvent(string user, DateTime beginTime, DateTime endTime)
 		{
 			User = user;
 			BeginTime = beginTime;
@@ -48,11 +48,11 @@ namespace ServicePlan.Domain.AggregateRoot
 		
 		public string Address { get; }
 
-		public Client Client { get; }
+		public string Client { get; }
 
 		public List<ClientUser> ClientUsers { get; }
 
-		public User Sale { get; }
+		public string Sale { get; }
 
 		/// <summary>
 		/// 预定时间
@@ -61,8 +61,8 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		public string Description { get; }
 
-		public MakeAppointWithClientEvent(Guid appointmentId, string address, Client client,
-			List<ClientUser> clientUsers, User sale, string description, DateTime bookTime)
+		public MakeAppointWithClientEvent(Guid appointmentId, string address, string client,
+			List<ClientUser> clientUsers, string sale, string description, DateTime bookTime)
 		{
 			Address = address;
 			Client = client;

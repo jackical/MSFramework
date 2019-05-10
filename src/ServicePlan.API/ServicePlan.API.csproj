@@ -42,10 +42,4 @@
     </Reference>
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Compile Remove="Application\Services\IRoadShowWeekSchedulerAppService.cs" />
-    <Compile Remove="Application\Services\RoadShowWeekSchedulerAppService.cs" />
-  </ItemGroup>
-
 </Project>

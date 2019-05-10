@@ -7,7 +7,9 @@ namespace ServicePlan.Domain.AggregateRoot
 {
 	public class User : ValueObject
 	{
-		public Guid UserId { get; private set; }
+		public string UserId { get; private set; }
+
+		public string UserName { get; private set; }
 
 		public string FirstName { get; private set; }
 
@@ -32,9 +34,11 @@ namespace ServicePlan.Domain.AggregateRoot
 		{
 		}
 
-		public User(Guid id, string firstName, string lastName, string groupName, string teamName, string email)
+		public User(string id, string userName, string firstName, string lastName, string groupName, string teamName,
+			string email)
 		{
 			UserId = id;
+			UserName = userName;
 			FirstName = firstName;
 			LastName = lastName;
 			GroupName = groupName;

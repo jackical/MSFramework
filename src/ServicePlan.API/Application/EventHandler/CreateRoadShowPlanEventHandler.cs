@@ -20,7 +20,7 @@ namespace ServicePlan.API.Application.EventHandler
 			var dto = new CreateRoadShowPlanDTO(@event.ClientUsers, @event.User, @event.CreatorUser, @event.Address,
 				@event.BeginTime, @event.EndTime, @event.SchedulerId, @event.AppointmentId);
 
-			await _servicePlanAppService.CreateRoadShowPlan(dto);
+			await _servicePlanAppService.CreateRoadShowAsync(dto);
 		}
 	}
 }

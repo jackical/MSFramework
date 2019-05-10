@@ -16,7 +16,7 @@ namespace ServicePlan.API.Application.EventHandler
 		
 		public async Task Handle(RoadShowPlanCanceledEvent @event)
 		{
-			await _servicePlanAppService.CancelRoadShowServicePlan(@event.PlanId);
+			await _servicePlanAppService.CancelRoadShowAsync(@event.PlanId);
 		}
 	}
 }

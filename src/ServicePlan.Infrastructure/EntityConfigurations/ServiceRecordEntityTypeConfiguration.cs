@@ -27,14 +27,14 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 
 			configuration.Property<DateTime>("ServiceTime").IsRequired();
 			configuration.Property<int>("PlanTypeId").IsRequired();
-			configuration.Property<string>("Subject").IsRequired(false);
-			configuration.Property<string>("IndustryId").IsRequired(false);
-			configuration.Property<string>("ClientFocusKeyPoint").IsRequired(false);
+			configuration.Property<string>("Subject").IsRequired(false).HasMaxLength(200);
+			configuration.Property<string>("IndustryId").IsRequired(false).HasMaxLength(50);
+			configuration.Property<string>("ClientFocusKeyPoint").IsRequired(false).HasMaxLength(500);
 			configuration.Property<bool?>("Continue").IsRequired(false);
-			configuration.Property<string>("ModificationRequirement").IsRequired(false);
-			configuration.Property<string>("NewRequirement").IsRequired(false);
+			configuration.Property<string>("ModificationRequirement").IsRequired(false).HasMaxLength(1000);
+			configuration.Property<string>("NewRequirement").IsRequired(false).HasMaxLength(1000);
 			configuration.Property<int?>("Score").IsRequired(false);
-			configuration.Property<string>("Feedback").IsRequired(false);
+			configuration.Property<string>("Feedback").IsRequired(false).HasMaxLength(1000);
 		}
 	}
 }

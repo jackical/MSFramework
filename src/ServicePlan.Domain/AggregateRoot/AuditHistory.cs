@@ -8,7 +8,7 @@ namespace ServicePlan.Domain.AggregateRoot
 	{
 		private Guid _id;
 
-		public User User { get; private set; }
+		public string User { get; private set; }
 
 		public string Operation { get; private set; }
 
@@ -19,7 +19,7 @@ namespace ServicePlan.Domain.AggregateRoot
 			_id = Guid.NewGuid();
 		}
 
-		public AuditHistory(User user, string operation, string result) : this()
+		public AuditHistory(string user, string operation, string result) : this()
 		{
 			User = user;
 			Operation = operation;

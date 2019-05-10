@@ -18,9 +18,6 @@
     <Compile Update="AggregateRoot\RoadShowWeekScheduler.Events.cs">
       <DependentUpon>RoadShowWeekScheduler.cs</DependentUpon>
     </Compile>
-    <Compile Update="AggregateRoot\ProductType.cs">
-      <DependentUpon>Product.cs</DependentUpon>
-    </Compile>
     <Compile Update="AggregateRoot\AttachmentType.cs">
       <DependentUpon>Attachment.cs</DependentUpon>
     </Compile>
