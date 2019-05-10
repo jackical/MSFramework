@@ -22,11 +22,10 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private ClientUser()
 		{
-			_id = Guid.NewGuid();
 		}
 
 		public ClientUser(Guid clientUserId, string firstName, string lastName, Guid clientId, string clientName,
-			string clientShortName) : this()
+			string clientShortName) 
 		{
 			ClientUserId = clientUserId;
 			FirstName = firstName;
@@ -44,6 +43,11 @@ namespace ServicePlan.Domain.AggregateRoot
 			yield return ClientId;
 			yield return ClientName;
 			yield return ClientShortName;
+		}
+
+		public static ClientUser Empty()
+		{
+			return new ClientUser();
 		}
 	}
 }

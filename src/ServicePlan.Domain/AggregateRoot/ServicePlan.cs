@@ -76,37 +76,37 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// <summary>
 		/// 产品信息
 		/// </summary>
-		public Product Product { get; private set; }
+		public Product Product { get; private set; } = Product.Empty();
 
 		/// <summary>
 		/// 路演信息
 		/// </summary>
-		public RoadShow RoadShow { get; private set; }
+		public RoadShow RoadShow { get; private set; } = RoadShow.Empty();
 
 		/// <summary>
 		/// 数据报告信息
 		/// </summary>
-		public DataReport DataReport { get; private set; }
+		public DataReport DataReport { get; private set; } = DataReport.Empty();
 
 		/// <summary>
 		/// 质量检测人
 		/// </summary>
-		public User QcUser { get; private set; }
+		public User QcUser { get; private set; } = User.Empty();
 
 		/// <summary>
 		/// 负责人
 		/// </summary>
-		public User User { get; private set; }
+		public User User { get; private set; } = User.Empty();
 
 		/// <summary>
 		/// 创建人
 		/// </summary>
-		public User Creator { get; private set; }
+		public User Creator { get; private set; } = User.Empty();
 
 		/// <summary>
 		/// 最后合规人
 		/// </summary>
-		public User AuditUser { get; private set; }
+		public User AuditUser { get; private set; } = User.Empty();
 
 		public IReadOnlyCollection<Attachment> Attachments => _attachments;
 
@@ -369,7 +369,7 @@ namespace ServicePlan.Domain.AggregateRoot
 				throw new ServicePlanException("计划类型不匹配");
 			}
 
-			if (DataReport == null || string.IsNullOrWhiteSpace(DataReport.Abstract) ||
+			if (string.IsNullOrWhiteSpace(DataReport.Abstract) ||
 			    string.IsNullOrWhiteSpace(DataReport.ReportTitle))
 			{
 				throw new ServicePlanException("未设置报告摘要或标题");

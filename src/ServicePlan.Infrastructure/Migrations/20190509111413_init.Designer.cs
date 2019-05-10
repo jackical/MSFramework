@@ -10,7 +10,7 @@ using ServicePlan.Infrastructure;
 namespace ServicePlan.Infrastructure.Migrations
 {
     [DbContext(typeof(ServicePlanContext))]
-    [Migration("20190509085613_init")]
+    [Migration("20190509111413_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

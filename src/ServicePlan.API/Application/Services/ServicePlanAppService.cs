@@ -15,6 +15,7 @@ namespace ServicePlan.API.Application.Services
 	public class ServicePlanAppService : ApplicationServiceBase, IServicePlanAppService
 	{
 		private readonly EfRepository<ServicePlanAggregate, Guid> _repository;
+		
 		private readonly IEventBus _eventBus;
 
 		public ServicePlanAppService(IMSFrameworkSession session, IEventBus eventBus,

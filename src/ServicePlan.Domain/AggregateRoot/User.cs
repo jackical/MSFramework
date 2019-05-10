@@ -51,5 +51,10 @@ namespace ServicePlan.Domain.AggregateRoot
 			yield return TeamName;
 			yield return Email;
 		}
+
+		public static User Empty()
+		{
+			return new User();
+		}
 	}
 }

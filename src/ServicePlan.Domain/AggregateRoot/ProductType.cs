@@ -8,6 +8,11 @@ namespace ServicePlan.Domain.AggregateRoot
 	public enum ProductType : byte
 	{
 		/// <summary>
+		/// 空
+		/// </summary>
+		None,
+		
+		/// <summary>
 		/// 数据产品
 		/// </summary>
 		Data,

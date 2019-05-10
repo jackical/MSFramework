@@ -32,6 +32,7 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 
 			configuration.OwnsOne(o => o.Product, sa =>
 			{
+				//sa.HasKey("_id");
 				sa.Property(p => p.ProductId);
 				sa.Property(p => p.Name).HasMaxLength(200);
 				sa.Property(p => p.Type);
@@ -49,6 +50,7 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 			
 			configuration.OwnsOne(o => o.QcUser, builder =>
 			{
+				//builder.HasKey("_id");
 				builder.Property(u => u.UserId);
 				builder.Property(u => u.Email).HasMaxLength(200);
 				builder.Property(u => u.LastName).HasMaxLength(100);
@@ -59,6 +61,7 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 			
 			configuration.OwnsOne(o => o.User, builder =>
 			{
+				//builder.HasKey("_id");
 				builder.Property(u => u.UserId);
 				builder.Property(u => u.Email).HasMaxLength(200);
 				builder.Property(u => u.LastName).HasMaxLength(100);
@@ -69,6 +72,7 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 			
 			configuration.OwnsOne(o => o.Creator,builder =>
 			{
+				//builder.HasKey("_id");
 				builder.Property(u => u.UserId);
 				builder.Property(u => u.Email).HasMaxLength(200);
 				builder.Property(u => u.LastName).HasMaxLength(100);
@@ -79,6 +83,7 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 			
 			configuration.OwnsOne(o => o.AuditUser, builder =>
 			{
+				//builder.HasKey("_id");
 				builder.Property(u => u.UserId);
 				builder.Property(u => u.Email).HasMaxLength(200);
 				builder.Property(u => u.LastName).HasMaxLength(100);
@@ -87,10 +92,9 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 				builder.Property(u => u.GroupName).HasMaxLength(200);
 			});
 
-			configuration.Ignore(o => o.RoadShow);
-			
 			configuration.OwnsOne(o => o.RoadShow, builder =>
 			{
+				//builder.HasKey("_id");
 				builder.Property(rs => rs.Address).HasMaxLength(500);
 				builder.OwnsMany(rs => rs.ClientUsers, g =>
 				{
@@ -106,8 +110,9 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 
 			configuration.OwnsOne(o => o.DataReport, builder =>
 			{
-				builder.Property(dr => dr.Abstract).HasMaxLength(2000);
-				builder.Property(dr => dr.ReportTitle).HasMaxLength(200);
+				//builder.HasKey("_id");
+				builder.Property(dr => dr.Abstract).IsRequired(false).HasMaxLength(2000);
+				builder.Property(dr => dr.ReportTitle).IsRequired(false).HasMaxLength(200);
 			});
 
 			configuration.OwnsMany(o => o.AuditHistory, builder =>
@@ -115,7 +120,9 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 				builder.HasKey("_id");
 				builder.Property(a => a.Result).HasMaxLength(300);
 				builder.Property(a => a.Operation).HasMaxLength(100);
-				builder.OwnsOne(a => a.User, g => {
+				builder.OwnsOne(a => a.User, g =>
+				{
+					//g.HasKey("_id");
 					g.Property(u => u.Email).HasMaxLength(200);
 					g.Property(u => u.LastName).HasMaxLength(100);
 					g.Property(u => u.FirstName).HasMaxLength(100);

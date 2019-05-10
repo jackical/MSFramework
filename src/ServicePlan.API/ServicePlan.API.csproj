@@ -9,11 +9,19 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.3.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="2.1.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.0.0-rc2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.0.0-rc2" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <ProjectReference Include="..\MSFramework.EntityFrameworkCore\MSFramework.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\MSFramework.AspNetCore\MSFramework.AspNetCore.csproj" />
+    <ProjectReference Include="..\MSFramework.EventSouring.EntityFrameworkCore\MSFramework.EventSouring.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\MSFramework\MSFramework.csproj" />
     <ProjectReference Include="..\ServicePlan.Domain\ServicePlan.Domain.csproj" />
     <ProjectReference Include="..\ServicePlan.Infrastructure\ServicePlan.Infrastructure.csproj" />
@@ -25,6 +33,19 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10">
+      <HintPath>C:\Users\jackical\.nuget\packages\serilog\2.5.0\lib\netstandard1.3\Serilog.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Remove="Application\Services\IRoadShowWeekSchedulerAppService.cs" />
+    <Compile Remove="Application\Services\RoadShowWeekSchedulerAppService.cs" />
   </ItemGroup>
 
 </Project>

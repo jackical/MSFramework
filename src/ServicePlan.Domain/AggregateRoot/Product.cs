@@ -39,5 +39,10 @@ namespace ServicePlan.Domain.AggregateRoot
 			yield return Type;
 			yield return _subscriber;
 		}
+		
+		public static Product Empty()
+		{
+			return new Product();
+		}
 	}
 }

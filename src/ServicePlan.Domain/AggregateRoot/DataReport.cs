@@ -28,5 +28,10 @@ namespace ServicePlan.Domain.AggregateRoot
 			yield return ReportTitle;
 			yield return Abstract;
 		}
+		
+		public static DataReport Empty()
+		{
+			return new DataReport();
+		}
 	}
 }

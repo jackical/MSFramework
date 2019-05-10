@@ -33,5 +33,10 @@ namespace ServicePlan.Domain.AggregateRoot
 			yield return _clientUsers;
 			yield return Address;
 		}
+
+		public static RoadShow Empty()
+		{
+			return new RoadShow();
+		}
 	}
 }
