@@ -1,4 +1,4 @@
-namespace ServicePlan.API.Application.DTO
+namespace ServicePlan.Application.DTO
 {
 	public class ServiceRecordScoreTDO
 	{

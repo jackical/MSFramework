@@ -6,10 +6,10 @@ using MSFramework.Data;
 using MSFramework.Domain;
 using MSFramework.EntityFrameworkCore.Repository;
 using MSFramework.EventBus;
-using ServicePlan.API.Application.DTO;
+using ServicePlan.Application.DTO;
 using ServicePlan.Domain.AggregateRoot;
 
-namespace ServicePlan.API.Application.Services
+namespace ServicePlan.Application.Services
 {
 	public class RoadShowWeekSchedulerAppService : ApplicationServiceBase, IRoadShowWeekSchedulerAppService
 	{

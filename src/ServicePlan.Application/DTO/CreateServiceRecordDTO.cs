@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using ServicePlan.Domain.AggregateRoot;
 
-namespace ServicePlan.API.Application.DTO
+namespace ServicePlan.Application.DTO
 {
 	public class CreateServiceRecordDTO
 	{

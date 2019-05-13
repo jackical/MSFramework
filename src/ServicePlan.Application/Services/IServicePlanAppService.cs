@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using MSFramework.Application;
-using ServicePlan.API.Application.DTO;
+using ServicePlan.Application.DTO;
 using ServicePlan.Domain.AggregateRoot;
 
-namespace ServicePlan.API.Application.Services
+namespace ServicePlan.Application.Services
 {
 	public interface IServicePlanAppService : IApplicationService
 	{

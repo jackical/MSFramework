@@ -11,8 +11,8 @@ using MSFramework.EntityFrameworkCore;
 using MSFramework.EntityFrameworkCore.SqlServer;
 using MSFramework.EventBus;
 using MSFramework.EventSouring.EntityFrameworkCore;
-using ServicePlan.API.Application;
-using ServicePlan.API.Application.EventHandler;
+using ServicePlan.Application;
+using ServicePlan.Application.EventHandler;
 
 namespace ServicePlan.API
 {
@@ -34,6 +34,7 @@ namespace ServicePlan.API
 			{
 				c.SwaggerDoc("v1.0", new OpenApiInfo {Version = "v1.0", Description = "ServicePlan API V1.0"});
 			});
+
 			// services.AddHealthChecks().AddCheck("self", () => HealthCheckResult.Healthy());
 			return services.AddMSFramework(builder =>
 			{
@@ -49,7 +50,7 @@ namespace ServicePlan.API
 
 				// 开发环境可以使用本地消息总线，生产环境应该换成分布式消息队列
 				builder.UseLocalEventBus();
-
+				builder.AddServicePlanApplication();
 				// 注册事件处理，即可以是当前领域应用内的事件处理，也可以是跨领域事件的处理
 				//builder.AddEventHandler<RoadShowPlanCreatedEvent, RoadShowPlanCreatedEventHandler>();
 			});

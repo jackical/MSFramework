@@ -1,7 +1,7 @@
 using System;
 using MSFramework.Domain;
 
-namespace ServicePlan.API.Application
+namespace ServicePlan.Application
 {
 	/// <summary>
 	/// 路演创建后事件

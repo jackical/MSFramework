@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MSFramework.AspNetCore;
 using MSFramework.Domain;
-using ServicePlan.API.Application.DTO;
-using ServicePlan.API.Application.Services;
+using ServicePlan.Application.DTO;
+using ServicePlan.Application.Services;
 using ServicePlan.Domain.AggregateRoot;
 
 namespace ServicePlan.API.Controllers

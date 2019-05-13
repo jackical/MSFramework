@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using MSFramework.EventBus;
-using ServicePlan.API.Application.DTO;
-using ServicePlan.API.Application.Services;
+using ServicePlan.Application.DTO;
+using ServicePlan.Application.Services;
 using ServicePlan.Domain.AggregateRoot;
 
-namespace ServicePlan.API.Application.EventHandler
+namespace ServicePlan.Application.EventHandler
 {
 	public class CreateRoadShowPlanEventHandler : IEventHandler<CreateRoadShowServicePlanEvent>
 	{

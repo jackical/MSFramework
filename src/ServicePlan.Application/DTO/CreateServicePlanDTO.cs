@@ -1,7 +1,7 @@
 using System;
 using ServicePlan.Domain.AggregateRoot;
 
-namespace ServicePlan.API.Application.DTO
+namespace ServicePlan.Application.DTO
 {
 	public class CreateServicePlanDTO
 	{

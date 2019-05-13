@@ -8,12 +8,12 @@ using MSFramework.Data;
 using MSFramework.Domain;
 using MSFramework.EntityFrameworkCore.Repository;
 using MSFramework.EventBus;
-using ServicePlan.API.Application.DTO;
+using ServicePlan.Application.DTO;
 using ServicePlan.Domain.AggregateRoot;
 using ServicePlan.Domain.Services;
 using ServicePlanAggregate = ServicePlan.Domain.AggregateRoot.ServicePlan;
 
-namespace ServicePlan.API.Application.Services
+namespace ServicePlan.Application.Services
 {
 	public class ServicePlanAppService : ApplicationServiceBase, IServicePlanAppService
 	{
