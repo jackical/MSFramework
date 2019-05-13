@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSFramework.AspNetCore", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicePlan.Infrastructure", "src\ServicePlan.Infrastructure\ServicePlan.Infrastructure.csproj", "{E3A33405-CABE-4B1B-AE80-6EF57D1ABBFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicePlan.Application", "src\ServicePlan.Application\ServicePlan.Application.csproj", "{A2B6F6BA-FD6E-45AB-84FE-0D16D218EAC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,6 +116,10 @@ Global
 		{E3A33405-CABE-4B1B-AE80-6EF57D1ABBFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3A33405-CABE-4B1B-AE80-6EF57D1ABBFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3A33405-CABE-4B1B-AE80-6EF57D1ABBFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2B6F6BA-FD6E-45AB-84FE-0D16D218EAC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2B6F6BA-FD6E-45AB-84FE-0D16D218EAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2B6F6BA-FD6E-45AB-84FE-0D16D218EAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2B6F6BA-FD6E-45AB-84FE-0D16D218EAC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,6 +144,7 @@ Global
 		{12F4E336-5A60-4E5D-A7F8-22E5EB77EBA1} = {457241A3-B83C-4E2C-9BD5-72421190AD51}
 		{A0D6C112-68EB-4EF0-8C70-E0BBAF979CEE} = {457241A3-B83C-4E2C-9BD5-72421190AD51}
 		{E3A33405-CABE-4B1B-AE80-6EF57D1ABBFE} = {457241A3-B83C-4E2C-9BD5-72421190AD51}
+		{A2B6F6BA-FD6E-45AB-84FE-0D16D218EAC6} = {457241A3-B83C-4E2C-9BD5-72421190AD51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE296FC5-5695-4FE5-9BAE-7168B9BACB47}

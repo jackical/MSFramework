@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ServicePlan.Domain\ServicePlan.Domain.csproj" />
+      <ProjectReference Include="..\ServicePlan.Infrastructure\ServicePlan.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

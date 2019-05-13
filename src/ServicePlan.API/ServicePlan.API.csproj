@@ -23,8 +23,7 @@
     <ProjectReference Include="..\MSFramework.AspNetCore\MSFramework.AspNetCore.csproj" />
     <ProjectReference Include="..\MSFramework.EventSouring.EntityFrameworkCore\MSFramework.EventSouring.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\MSFramework\MSFramework.csproj" />
-    <ProjectReference Include="..\ServicePlan.Domain\ServicePlan.Domain.csproj" />
-    <ProjectReference Include="..\ServicePlan.Infrastructure\ServicePlan.Infrastructure.csproj" />
+    <ProjectReference Include="..\ServicePlan.Application\ServicePlan.Application.csproj" />
   </ItemGroup>
 
 
