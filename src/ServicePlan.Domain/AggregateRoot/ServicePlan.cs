@@ -7,7 +7,6 @@ using ServicePlan.Domain.Services;
 
 namespace ServicePlan.Domain.AggregateRoot
 {
-	//todo ProductSubscriberChangedEventHandler
 	/// <summary>
 	/// 服务计划
 	/// </summary>

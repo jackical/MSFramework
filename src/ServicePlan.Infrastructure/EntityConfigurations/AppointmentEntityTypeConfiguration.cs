@@ -19,7 +19,7 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 				g.HasKey("_id");
 			});
 
-			appointmentConfiguration.Property(o => o.Sale).IsRequired().HasMaxLength(50);
+			appointmentConfiguration.Property(o => o.Sale).IsRequired(false).HasMaxLength(50);
 			
 			appointmentConfiguration.Property(o => o.Booked).IsRequired();
 

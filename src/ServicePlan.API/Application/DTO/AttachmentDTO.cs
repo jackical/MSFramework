@@ -6,18 +6,10 @@ namespace ServicePlan.API.Application.DTO
 	{
 		public Guid Id { get; }
 
-		public string Name { get; }
+		public string Name { get; set;}
 
-		public string Path { get; }
+		public string Path { get; set;}
 
-		public string Type { get; }
-
-		public AttachmentDTO(Guid id, string name, string path, string type)
-		{
-			Id = id;
-			Name = name;
-			Path = path;
-			Type = type;
-		}
+		public string Type { get; set; }
 	}
 }

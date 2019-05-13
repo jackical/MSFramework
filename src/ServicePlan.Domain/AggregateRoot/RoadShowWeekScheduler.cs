@@ -154,7 +154,12 @@ namespace ServicePlan.Domain.AggregateRoot
 
 		private void Apply(AddIdleDateTimeEvent @event)
 		{
-			_appointments.Add(@event.NewDateTime);
+			if (@event.Appointment.BeginTime < _beginTime || @event.Appointment.EndTime > _endTime)
+			{
+				throw new ServicePlanException("时间无效");
+			}
+
+			_appointments.Add(@event.Appointment);
 		}
 
 		private void Apply(MakeAppointWithClientEvent @event)

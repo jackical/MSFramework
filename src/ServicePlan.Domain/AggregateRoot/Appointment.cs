@@ -14,11 +14,7 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// 是否预定
 		/// </summary>
 		private bool _booked;
-		
-		private DateTime _beginTime;
-		
-		private DateTime _endTime;
-		
+
 		private DateTime? _bookTime;
 
 		/// <summary>
@@ -45,6 +41,16 @@ namespace ServicePlan.Domain.AggregateRoot
 		/// 计划标识
 		/// </summary>
 		public Guid? PlanId { get; private set; }
+		
+		/// <summary>
+		/// 开始时间
+		/// </summary>
+		public DateTime BeginTime { get; private set; }
+
+		/// <summary>
+		/// 结束时间
+		/// </summary>
+		public DateTime EndTime { get; private set; }
 
 		/// <summary>
 		/// 销售
@@ -61,8 +67,8 @@ namespace ServicePlan.Domain.AggregateRoot
 		public Appointment(string location, DateTime beginTime, DateTime endTime)
 		{
 			_location = location;
-			_beginTime = beginTime;
-			_endTime = endTime;
+			BeginTime = beginTime;
+			EndTime = endTime;
 			_booked = false;
 		}
 

@@ -20,7 +20,7 @@ namespace ServicePlan.API.Application.Services
 		private readonly EfRepository<ServicePlanAggregate, Guid> _repository;
 		
 		private readonly IEventBus _eventBus;
-
+ 
 		public ServicePlanAppService(IMSFrameworkSession session, IEventBus eventBus,
 			EfRepository<ServicePlanAggregate, Guid> repository,
 			ILogger<ServicePlanService> logger) : base(session, logger)

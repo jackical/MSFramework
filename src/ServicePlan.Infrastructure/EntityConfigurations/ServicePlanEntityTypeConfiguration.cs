@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MSFramework.EntityFrameworkCore;
 using ServicePlan.Domain.AggregateRoot;
+using Z.EntityFramework.Plus;
 
 namespace ServicePlan.Infrastructure.EntityConfigurations
 {
@@ -16,13 +17,13 @@ namespace ServicePlan.Infrastructure.EntityConfigurations
 			
 			configuration.Property<string>("Name").IsRequired().HasMaxLength(200);
 			
-			configuration.Property<int>("PlanTypeId").IsRequired();
+			configuration.Property<ServicePlanType>("PlanType").IsRequired();
 			
-			configuration.Property<int>("PlanStateId").IsRequired();
+			configuration.Property<ServicePlanState>("PlanState").IsRequired();
 			
-			configuration.Property<int>("ValidationStateId").IsRequired();
+			configuration.Property<ValidationState>("ValidationState").IsRequired();
 			
-			configuration.Property<int>("AuditStateId").IsRequired();
+			configuration.Property<AuditState>("AuditState").IsRequired();
 			
 			configuration.Property<DateTime>("BeginTime").IsRequired();
 

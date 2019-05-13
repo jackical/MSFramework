@@ -24,7 +24,8 @@ namespace ServicePlan.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .HasMaxLength(300);
 
                     b.Property<DateTime>("BeginTime");
 
@@ -32,15 +33,20 @@ namespace ServicePlan.Infrastructure.Migrations
 
                     b.Property<bool>("Booked");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
 
                     b.Property<DateTime>("EndTime");
 
-                    b.Property<string>("Location");
+                    b.Property<string>("Location")
+                        .HasMaxLength(200);
 
                     b.Property<Guid?>("PlanId");
 
                     b.Property<Guid?>("RoadShowWeekSchedulerId");
+
+                    b.Property<string>("Sale")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -57,10 +63,12 @@ namespace ServicePlan.Infrastructure.Migrations
                     b.Property<DateTime>("Creation");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<string>("Path")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(300);
 
                     b.Property<Guid?>("ServicePlanId");
 
@@ -105,6 +113,10 @@ namespace ServicePlan.Infrastructure.Migrations
                     b.Property<string>("KeyIdeaAndTopic")
                         .HasMaxLength(1000);
 
+                    b.Property<string>("User")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
                     b.Property<int>("Version");
 
                     b.HasKey("Id");
@@ -117,9 +129,16 @@ namespace ServicePlan.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AuditStateId");
+                    b.Property<byte>("AuditState");
+
+                    b.Property<string>("AuditUser")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("BeginTime");
+
+                    b.Property<string>("Creator")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<bool>("Deleted")
                         .ValueGeneratedOnAdd()
@@ -131,11 +150,21 @@ namespace ServicePlan.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200);
 
-                    b.Property<int>("PlanStateId");
+                    b.Property<byte>("PlanState");
 
-                    b.Property<int>("PlanTypeId");
+                    b.Property<byte>("PlanType");
 
-                    b.Property<int>("ValidationStateId");
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("QcUser")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("User")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<byte>("ValidationState");
 
                     b.Property<int>("Version");
 
@@ -149,17 +178,22 @@ namespace ServicePlan.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClientFocusKeyPoint");
+                    b.Property<string>("ClientFocusKeyPoint")
+                        .HasMaxLength(500);
 
                     b.Property<bool?>("Continue");
 
-                    b.Property<string>("Feedback");
+                    b.Property<string>("Feedback")
+                        .HasMaxLength(1000);
 
-                    b.Property<string>("IndustryId");
+                    b.Property<string>("IndustryId")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("ModificationRequirement");
+                    b.Property<string>("ModificationRequirement")
+                        .HasMaxLength(1000);
 
-                    b.Property<string>("NewRequirement");
+                    b.Property<string>("NewRequirement")
+                        .HasMaxLength(1000);
 
                     b.Property<int>("PlanTypeId");
 
@@ -169,7 +203,8 @@ namespace ServicePlan.Infrastructure.Migrations
 
                     b.Property<DateTime>("ServiceTime");
 
-                    b.Property<string>("Subject");
+                    b.Property<string>("Subject")
+                        .HasMaxLength(200);
 
                     b.HasKey("Id");
 
@@ -191,21 +226,17 @@ namespace ServicePlan.Infrastructure.Migrations
 
                             b1.Property<Guid>("AppointmentId");
 
-                            b1.Property<Guid>("ClientId");
+                            b1.Property<string>("ClientId");
 
-                            b1.Property<string>("ClientName")
-                                .HasMaxLength(200);
+                            b1.Property<string>("ClientName");
 
-                            b1.Property<string>("ClientShortName")
-                                .HasMaxLength(200);
+                            b1.Property<string>("ClientShortName");
 
-                            b1.Property<Guid>("ClientUserId");
+                            b1.Property<string>("ClientUserId");
 
-                            b1.Property<string>("FirstName")
-                                .HasMaxLength(50);
+                            b1.Property<string>("FirstName");
 
-                            b1.Property<string>("LastName")
-                                .HasMaxLength(50);
+                            b1.Property<string>("LastName");
 
                             b1.HasKey("_id");
 
@@ -237,7 +268,7 @@ namespace ServicePlan.Infrastructure.Migrations
                         {
                             b1.Property<Guid>("EmailRecordId");
 
-                            b1.Property<Guid>("ClientId");
+                            b1.Property<string>("ClientId");
 
                             b1.Property<string>("ClientName")
                                 .HasMaxLength(200);
@@ -245,7 +276,7 @@ namespace ServicePlan.Infrastructure.Migrations
                             b1.Property<string>("ClientShortName")
                                 .HasMaxLength(200);
 
-                            b1.Property<Guid>("ClientUserId");
+                            b1.Property<string>("ClientUserId");
 
                             b1.Property<string>("FirstName")
                                 .HasMaxLength(100);
@@ -264,40 +295,6 @@ namespace ServicePlan.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ServicePlan.Domain.AggregateRoot.RoadShowWeekScheduler", b =>
-                {
-                    b.OwnsOne("ServicePlan.Domain.AggregateRoot.User", "User", b1 =>
-                        {
-                            b1.Property<Guid>("RoadShowWeekSchedulerId");
-
-                            b1.Property<string>("Email")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("FirstName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("GroupName")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("LastName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("TeamName")
-                                .HasMaxLength(200);
-
-                            b1.Property<Guid>("UserId");
-
-                            b1.HasKey("RoadShowWeekSchedulerId");
-
-                            b1.ToTable("RoadShowWeekScheduler");
-
-                            b1.HasOne("ServicePlan.Domain.AggregateRoot.RoadShowWeekScheduler")
-                                .WithOne("User")
-                                .HasForeignKey("ServicePlan.Domain.AggregateRoot.User", "RoadShowWeekSchedulerId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-                });
-
             modelBuilder.Entity("ServicePlan.Domain.AggregateRoot.ServicePlan", b =>
                 {
                     b.OwnsMany("ServicePlan.Domain.AggregateRoot.AuditHistory", "AuditHistory", b1 =>
@@ -306,12 +303,18 @@ namespace ServicePlan.Infrastructure.Migrations
                                 .ValueGeneratedOnAdd();
 
                             b1.Property<string>("Operation")
+                                .IsRequired()
                                 .HasMaxLength(100);
 
                             b1.Property<string>("Result")
+                                .IsRequired()
                                 .HasMaxLength(300);
 
                             b1.Property<Guid>("ServicePlanId");
+
+                            b1.Property<string>("User")
+                                .IsRequired()
+                                .HasMaxLength(50);
 
                             b1.HasKey("_id");
 
@@ -323,37 +326,6 @@ namespace ServicePlan.Infrastructure.Migrations
                                 .WithMany("AuditHistory")
                                 .HasForeignKey("ServicePlanId")
                                 .OnDelete(DeleteBehavior.Cascade);
-
-                            b1.OwnsOne("ServicePlan.Domain.AggregateRoot.User", "User", b2 =>
-                                {
-                                    b2.Property<Guid>("AuditHistory_id");
-
-                                    b2.Property<string>("Email")
-                                        .HasMaxLength(200);
-
-                                    b2.Property<string>("FirstName")
-                                        .HasMaxLength(100);
-
-                                    b2.Property<string>("GroupName")
-                                        .HasMaxLength(100);
-
-                                    b2.Property<string>("LastName")
-                                        .HasMaxLength(100);
-
-                                    b2.Property<string>("TeamName")
-                                        .HasMaxLength(100);
-
-                                    b2.Property<Guid>("UserId");
-
-                                    b2.HasKey("AuditHistory_id");
-
-                                    b2.ToTable("AuditHistory");
-
-                                    b2.HasOne("ServicePlan.Domain.AggregateRoot.AuditHistory")
-                                        .WithOne("User")
-                                        .HasForeignKey("ServicePlan.Domain.AggregateRoot.User", "AuditHistory_id")
-                                        .OnDelete(DeleteBehavior.Cascade);
-                                });
                         });
 
                     b.OwnsOne("ServicePlan.Domain.AggregateRoot.DataReport", "DataReport", b1 =>
@@ -374,62 +346,6 @@ namespace ServicePlan.Infrastructure.Migrations
                                 .WithOne("DataReport")
                                 .HasForeignKey("ServicePlan.Domain.AggregateRoot.DataReport", "ServicePlanId")
                                 .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("ServicePlan.Domain.AggregateRoot.Product", "Product", b1 =>
-                        {
-                            b1.Property<Guid>("ServicePlanId");
-
-                            b1.Property<string>("Name")
-                                .HasMaxLength(200);
-
-                            b1.Property<Guid>("ProductId");
-
-                            b1.Property<byte>("Type");
-
-                            b1.HasKey("ServicePlanId");
-
-                            b1.ToTable("ServicePlan");
-
-                            b1.HasOne("ServicePlan.Domain.AggregateRoot.ServicePlan")
-                                .WithOne("Product")
-                                .HasForeignKey("ServicePlan.Domain.AggregateRoot.Product", "ServicePlanId")
-                                .OnDelete(DeleteBehavior.Cascade);
-
-                            b1.OwnsMany("ServicePlan.Domain.AggregateRoot.ClientUser", "Subscriber", b2 =>
-                                {
-                                    b2.Property<Guid>("_id")
-                                        .ValueGeneratedOnAdd();
-
-                                    b2.Property<Guid>("ClientId");
-
-                                    b2.Property<string>("ClientName")
-                                        .HasMaxLength(200);
-
-                                    b2.Property<string>("ClientShortName")
-                                        .HasMaxLength(200);
-
-                                    b2.Property<Guid>("ClientUserId");
-
-                                    b2.Property<string>("FirstName")
-                                        .HasMaxLength(50);
-
-                                    b2.Property<string>("LastName")
-                                        .HasMaxLength(50);
-
-                                    b2.Property<Guid>("ProductServicePlanId");
-
-                                    b2.HasKey("_id");
-
-                                    b2.HasIndex("ProductServicePlanId");
-
-                                    b2.ToTable("ServicePlan_Subscriber");
-
-                                    b2.HasOne("ServicePlan.Domain.AggregateRoot.Product")
-                                        .WithMany("Subscriber")
-                                        .HasForeignKey("ProductServicePlanId")
-                                        .OnDelete(DeleteBehavior.Cascade);
-                                });
                         });
 
                     b.OwnsOne("ServicePlan.Domain.AggregateRoot.RoadShow", "RoadShow", b1 =>
@@ -453,21 +369,17 @@ namespace ServicePlan.Infrastructure.Migrations
                                     b2.Property<Guid>("_id")
                                         .ValueGeneratedOnAdd();
 
-                                    b2.Property<Guid>("ClientId");
+                                    b2.Property<string>("ClientId");
 
-                                    b2.Property<string>("ClientName")
-                                        .HasMaxLength(200);
+                                    b2.Property<string>("ClientName");
 
-                                    b2.Property<string>("ClientShortName")
-                                        .HasMaxLength(200);
+                                    b2.Property<string>("ClientShortName");
 
-                                    b2.Property<Guid>("ClientUserId");
+                                    b2.Property<string>("ClientUserId");
 
-                                    b2.Property<string>("FirstName")
-                                        .HasMaxLength(50);
+                                    b2.Property<string>("FirstName");
 
-                                    b2.Property<string>("LastName")
-                                        .HasMaxLength(50);
+                                    b2.Property<string>("LastName");
 
                                     b2.Property<Guid>("RoadShowServicePlanId");
 
@@ -483,130 +395,6 @@ namespace ServicePlan.Infrastructure.Migrations
                                         .OnDelete(DeleteBehavior.Cascade);
                                 });
                         });
-
-                    b.OwnsOne("ServicePlan.Domain.AggregateRoot.User", "AuditUser", b1 =>
-                        {
-                            b1.Property<Guid>("ServicePlanId");
-
-                            b1.Property<string>("Email")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("FirstName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("GroupName")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("LastName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("TeamName")
-                                .HasMaxLength(200);
-
-                            b1.Property<Guid>("UserId");
-
-                            b1.HasKey("ServicePlanId");
-
-                            b1.ToTable("ServicePlan");
-
-                            b1.HasOne("ServicePlan.Domain.AggregateRoot.ServicePlan")
-                                .WithOne("AuditUser")
-                                .HasForeignKey("ServicePlan.Domain.AggregateRoot.User", "ServicePlanId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("ServicePlan.Domain.AggregateRoot.User", "Creator", b1 =>
-                        {
-                            b1.Property<Guid>("ServicePlanId");
-
-                            b1.Property<string>("Email")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("FirstName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("GroupName")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("LastName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("TeamName")
-                                .HasMaxLength(200);
-
-                            b1.Property<Guid>("UserId");
-
-                            b1.HasKey("ServicePlanId");
-
-                            b1.ToTable("ServicePlan");
-
-                            b1.HasOne("ServicePlan.Domain.AggregateRoot.ServicePlan")
-                                .WithOne("Creator")
-                                .HasForeignKey("ServicePlan.Domain.AggregateRoot.User", "ServicePlanId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("ServicePlan.Domain.AggregateRoot.User", "QcUser", b1 =>
-                        {
-                            b1.Property<Guid>("ServicePlanId");
-
-                            b1.Property<string>("Email")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("FirstName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("GroupName")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("LastName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("TeamName")
-                                .HasMaxLength(200);
-
-                            b1.Property<Guid>("UserId");
-
-                            b1.HasKey("ServicePlanId");
-
-                            b1.ToTable("ServicePlan");
-
-                            b1.HasOne("ServicePlan.Domain.AggregateRoot.ServicePlan")
-                                .WithOne("QcUser")
-                                .HasForeignKey("ServicePlan.Domain.AggregateRoot.User", "ServicePlanId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("ServicePlan.Domain.AggregateRoot.User", "User", b1 =>
-                        {
-                            b1.Property<Guid>("ServicePlanId");
-
-                            b1.Property<string>("Email")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("FirstName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("GroupName")
-                                .HasMaxLength(200);
-
-                            b1.Property<string>("LastName")
-                                .HasMaxLength(100);
-
-                            b1.Property<string>("TeamName")
-                                .HasMaxLength(200);
-
-                            b1.Property<Guid>("UserId");
-
-                            b1.HasKey("ServicePlanId");
-
-                            b1.ToTable("ServicePlan");
-
-                            b1.HasOne("ServicePlan.Domain.AggregateRoot.ServicePlan")
-                                .WithOne("User")
-                                .HasForeignKey("ServicePlan.Domain.AggregateRoot.User", "ServicePlanId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
                 });
 
             modelBuilder.Entity("ServicePlan.Domain.AggregateRoot.ServiceRecord", b =>
@@ -620,7 +408,7 @@ namespace ServicePlan.Infrastructure.Migrations
                             b1.Property<Guid>("_id")
                                 .ValueGeneratedOnAdd();
 
-                            b1.Property<Guid>("ClientId");
+                            b1.Property<string>("ClientId");
 
                             b1.Property<string>("ClientName")
                                 .HasMaxLength(200);
@@ -628,7 +416,7 @@ namespace ServicePlan.Infrastructure.Migrations
                             b1.Property<string>("ClientShortName")
                                 .HasMaxLength(200);
 
-                            b1.Property<Guid>("ClientUserId");
+                            b1.Property<string>("ClientUserId");
 
                             b1.Property<string>("FirstName")
                                 .HasMaxLength(100);

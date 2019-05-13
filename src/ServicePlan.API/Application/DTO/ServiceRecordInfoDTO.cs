@@ -4,21 +4,12 @@ namespace ServicePlan.API.Application.DTO
 {
 	public class ServiceRecordInfoDTO
 	{
-		public string ClientFocusKeyPoint { get; }
+		public string ClientFocusKeyPoint { get; set; }
 
-		public bool Continue { get; }
+		public bool Continue { get; set; }
 
-		public string ModificationRequirement { get; }
+		public string ModificationRequirement { get; set; }
 
-		public string NewRequest { get; }
-
-		public ServiceRecordInfoDTO(string clientFocusKeyPoint, bool @continue,
-			string modificationRequirement, string newRequirement)
-		{
-			ClientFocusKeyPoint = clientFocusKeyPoint;
-			Continue = @continue;
-			ModificationRequirement = modificationRequirement;
-			NewRequest = newRequirement;
-		}
+		public string NewRequest { get; set; }
 	}
 }

@@ -28,11 +28,11 @@ namespace ServicePlan.Domain.AggregateRoot
 	/// </summary>
 	public class AddIdleDateTimeEvent : AggregateRootChangedEvent<RoadShowWeekScheduler, Guid>
 	{
-		public Appointment NewDateTime { get; }
+		public Appointment Appointment { get; }
 
-		public AddIdleDateTimeEvent(Appointment freeDateTime)
+		public AddIdleDateTimeEvent(Appointment appointment)
 		{
-			NewDateTime = freeDateTime;
+			Appointment = appointment;
 		}
 	}
 
